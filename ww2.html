@@ -1,229 +1,245 @@
 <!DOCTYPE html>
-<html lang="nl" class="scroll-smooth">
+<html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>De Tweede Wereldoorlog - Leerstof</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/scrollreveal"></script>
+    <link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
     <style>
-        .hero-section {
-            min-height: 100vh;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'OpenDyslexic', sans-serif !important;
+        }
+
+        body {
             background-color: #1a1f2d;
+            color: #ffffff;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            word-spacing: 4px;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: #1a1f2d;
+            padding: 1rem;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+            background-color: #2a2f3d;
+        }
+
+        nav a:hover {
+            background-color: #3a3f4d;
+        }
+
+        .hero-section {
+            min-height: 60vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            position: relative;
+            text-align: center;
+            padding: 1rem;
+            padding-top: 60px;
+            background-color: #1a1f2d;
         }
-        .nav-links {
-            position: fixed;
-            top: 1rem;
-            left: 0;
-            right: 0;
-            z-index: 50;
-            display: flex;
-            justify-content: space-between;
-            padding: 0 1rem;
+
+        .content-section {
+            background: linear-gradient(to bottom, #1a1f2d, #2a2f3d);
+            padding: 2rem;
+            min-height: 100vh;
         }
-        .timeline-item {
-            position: relative;
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'OpenDyslexic', sans-serif !important;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        p, li, span, a {
+            font-family: 'OpenDyslexic', sans-serif !important;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .timeline {
+            border-left: 4px solid #ffffff;
+            margin-left: 1rem;
             padding-left: 2rem;
-            border-left: 2px solid #ffffff;
-            margin-bottom: 2rem;
+            position: relative;
         }
+
+        .timeline-item {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
         .timeline-item::before {
             content: '';
             position: absolute;
-            left: -0.5rem;
-            top: 0;
+            left: -2.5rem;
+            top: 0.5rem;
             width: 1rem;
             height: 1rem;
-            background: #ffffff;
+            background-color: #ffffff;
             border-radius: 50%;
         }
+
         .definition {
-            border-left: 4px solid #4f46e5;
-            padding-left: 1rem;
-            margin: 1rem 0;
+            background-color: #2a2f3d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #4a4f5d;
         }
-        .content-section {
-            min-height: 100vh;
-            padding: 5rem 1rem;
+
+        .definition h3 {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .definition p {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 600px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                width: 100%;
+                text-align: center;
+            }
+
+            .hero-section {
+                padding-top: 180px;
+            }
+
+            .timeline {
+                margin-left: 0;
+                padding-left: 1.5rem;
+            }
+
+            .timeline-item::before {
+                left: -2rem;
+            }
+
+            body {
+                font-size: 1.1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
-<body class="bg-[#1a1f2d] text-white">
-    <!-- Navigation Links -->
-    <div class="nav-links">
-        <a href="ww1.html" class="text-white/80">WOI</a>
-        <a href="ww2.html" class="text-white/80">WOII</a>
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ww1.html">WOI</a></li>
+            <li><a href="ww2.html">WOII</a></li>
+            <li><a href="study.html">Oefenen</a></li>
+        </ul>
+    </nav>
+
+    <div class="hero-section">
+        <h1>De Tweede Wereldoorlog</h1>
+        <p>1939-1945</p>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <h1 class="text-7xl font-bold mb-4 text-center">De Tweede Wereldoorlog</h1>
-        <p class="text-2xl text-gray-300">1939 - 1945</p>
-        <a href="#timeline" class="absolute bottom-8 animate-bounce">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-            </svg>
-        </a>
-    </section>
-
-    <!-- Content Sections -->
-    <main class="bg-[#1a1f2d]">
-        <!-- Timeline Section -->
-        <section id="timeline" class="content-section">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-5xl font-bold mb-12">Nederland in WOII</h2>
-                
-                <div class="space-y-8">
+    <div class="content-section">
+        <div class="container">
+            <section id="timeline">
+                <h2>Nederland in WOII</h2>
+                <div class="timeline">
                     <div class="timeline-item">
-                        <h3 class="text-xl font-bold">10 mei 1940</h3>
-                        <p>Inval Duitsland in Nederland</p>
+                        <h3>10 mei 1940</h3>
+                        <p>Duitsland valt Nederland binnen.</p>
                     </div>
-
                     <div class="timeline-item">
-                        <h3 class="text-xl font-bold">14 mei 1940</h3>
-                        <p>Bombardement Rotterdam (heel Rotterdam plat in 13 minuten)</p>
+                        <h3>14 mei 1940</h3>
+                        <p>Bombardement op Rotterdam. Nederland geeft zich over.</p>
                     </div>
-
                     <div class="timeline-item">
-                        <h3 class="text-xl font-bold">15 mei 1940</h3>
-                        <p>Nederland geeft zich over</p>
-                    </div>
-
-                    <div class="timeline-item">
-                        <h3 class="text-xl font-bold">5 mei 1945</h3>
-                        <p>De bevrijding van Nederland</p>
+                        <h3>5 mei 1945</h3>
+                        <p>Bevrijding van Nederland.</p>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Bondgenootschappen Section -->
-        <section id="bondgenootschappen" class="content-section">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-5xl font-bold mb-12">Bondgenootschappen</h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="bg-gray-800/50 p-6 rounded-lg">
-                        <h3 class="text-2xl font-bold mb-4">De Geallieerden</h3>
-                        <ul class="list-disc list-inside space-y-2">
-                            <li>Het Verenigd Koninkrijk</li>
-                            <li>De Verenigde Staten</li>
-                            <li>Rusland</li>
-                            <li>Frankrijk</li>
-                        </ul>
-                    </div>
-                    <div class="bg-gray-800/50 p-6 rounded-lg">
-                        <h3 class="text-2xl font-bold mb-4">Bondgenoten van Hitler</h3>
-                        <ul class="list-disc list-inside space-y-2">
-                            <li>Italië</li>
-                            <li>Japan</li>
-                        </ul>
-                    </div>
+            <section id="concepts">
+                <h2>Belangrijke Begrippen</h2>
+                <div class="definition">
+                    <h3>Antisemitisme</h3>
+                    <p>Haat tegen en discriminatie van Joden.</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- Belangrijke Begrippen Section -->
-        <section id="belangrijke-begrippen" class="content-section">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-5xl font-bold mb-12">Belangrijke Begrippen</h2>
-                
-                <div class="grid grid-cols-1 gap-6">
-                    <div class="bg-gray-800/50 p-6 rounded-lg">
-                        <ul class="space-y-6">
-                            <li class="definition">
-                                <span class="font-bold text-xl">Antisemitisme</span>
-                                <p>Jodenhaat. Discriminatie van de Joden.</p>
-                            </li>
-                            <li class="definition">
-                                <span class="font-bold text-xl">Duitse bezetting</span>
-                                <p>De landen die bezet werden door Hitler in de Tweede Wereldoorlog.</p>
-                            </li>
-                            <li class="definition">
-                                <span class="font-bold text-xl">Holocaust</span>
-                                <p>Massamoord, in de Tweede Wereldoorlog hebben we het dan over de massamoord op de Europese Joden.</p>
-                            </li>
-                            <li class="definition">
-                                <span class="font-bold text-xl">NSB</span>
-                                <p>De Nederlandse politieke partij die het eens was met Hitler en de bezetters steunde.</p>
-                            </li>
-                            <li class="definition">
-                                <span class="font-bold text-xl">NSDAP</span>
-                                <p>De politieke partij van Hitler.</p>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="definition">
+                    <h3>Duitse bezetting</h3>
+                    <p>De periode waarin de Nazi's Nederland bestuurden (1940-1945).</p>
                 </div>
-            </div>
-        </section>
+                <div class="definition">
+                    <h3>Holocaust</h3>
+                    <p>De systematische vervolging en moord op Joden door Nazi-Duitsland.</p>
+                </div>
+            </section>
 
-        <!-- Concentratiekampen Section -->
-        <section id="concentratiekampen" class="content-section">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-5xl font-bold mb-12">Concentratiekampen</h2>
-                
-                <div class="bg-gray-800/50 p-8 rounded-lg">
-                    <p class="text-xl mb-8">Een kamp waar mensen onder dwang van het leger bij elkaar gebracht werden. We kende in de Tweede Wereldoorlog 4 soorten kampen:</p>
-                    <ul class="list-disc list-inside space-y-4 text-lg">
-                        <li>Een doorgangskamp</li>
-                        <li>Een internatiekamp</li>
-                        <li>Een werkkamp (hier werden mensen naartoe gestuurd om, onder zeer slechte omstandigheden, te werken)</li>
-                        <li>Een vernietigingskamp (hier kwamen mensen, vooral Joden, heen om gedood/vergast te worden)</li>
+            <section id="camps">
+                <h2>Concentratiekampen</h2>
+                <div class="definition">
+                    <h3>Soorten kampen</h3>
+                    <ul>
+                        <li>Werkkampen: Gevangenen moesten zwaar werk doen</li>
+                        <li>Vernietigingskampen: Speciaal gebouwd om mensen te vermoorden</li>
+                        <li>Doorgangskampen: Tijdelijke kampen voordat mensen naar andere kampen werden gestuurd</li>
                     </ul>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- De Holocaust Section -->
-        <section id="holocaust" class="content-section">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-5xl font-bold mb-12">De Holocaust</h2>
-                
-                <div class="space-y-8">
-                    <div class="bg-gray-800/50 p-8 rounded-lg">
-                        <h3 class="text-2xl font-bold mb-4">Nazi Ideologie</h3>
-                        <p class="text-lg mb-6">Volgens Hitler waren de Joden "Untermenschen" (mensen die niks waard waren). Hij geloofde dat het Germaanse volk, de Ariërs (blond haar, blauwe ogen), het sterkste ras was. Alleen dat ras mocht in zijn Rijk wonen. De rest moest weg/gezuiverd worden.</p>
-                    </div>
-
-                    <div class="bg-gray-800/50 p-8 rounded-lg">
-                        <h3 class="text-2xl font-bold mb-4">Systematische Vervolging</h3>
-                        <p class="text-lg mb-4">Tijdens de Holocaust werden de Joden stap voor stap uit Europa weggehaald:</p>
-                        <ol class="list-decimal list-inside space-y-3 text-lg">
-                            <li>Gediscrimineerd</li>
-                            <li>Buitengesloten</li>
-                            <li>In aparte wijken gezet</li>
-                            <li>Gedeporteerd naar concentratiekampen</li>
-                            <li>Vermoord</li>
-                        </ol>
-                    </div>
+            <section id="holocaust">
+                <h2>De Holocaust</h2>
+                <div class="definition">
+                    <h3>Jodenvervolging</h3>
+                    <ul>
+                        <li>Registratie van Joden</li>
+                        <li>Discriminerende maatregelen</li>
+                        <li>Deportatie naar kampen</li>
+                        <li>Systematische moord</li>
+                    </ul>
                 </div>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        ScrollReveal().reveal('.timeline-item', {
-            delay: 200,
-            distance: '50px',
-            duration: 1000,
-            easing: 'ease-in-out',
-            origin: 'left',
-            interval: 200
-        });
-
-        ScrollReveal().reveal('.definition, .bg-gray-800\\/50', {
-            delay: 200,
-            distance: '50px',
-            duration: 1000,
-            easing: 'ease-in-out',
-            origin: 'bottom',
-            interval: 200
-        });
-    </script>
+            </section>
+        </div>
+    </div>
 </body>
 </html> 
