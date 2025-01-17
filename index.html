@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOI & WOII Leerstof</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', sans-serif;
+            line-height: 1.6;
+        }
+        .hero-section {
+            min-height: 100vh;
+            background-color: #1a1f2d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-[#1a1f2d] text-white">
+    <!-- Hero Section -->
+    <section class="hero-section px-4">
+        <h1 class="text-6xl font-bold mb-6 text-center">WOI & WOII</h1>
+        <p class="text-xl text-gray-300 mb-12 text-center max-w-2xl">
+            Leer alles over de Eerste en Tweede Wereldoorlog met interactieve hulpmiddelen.
+        </p>
+
+        <!-- Navigation Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Study Card -->
+            <a href="study.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70">
+                <div class="text-4xl mb-4">📚</div>
+                <h2 class="text-2xl font-bold mb-3">Leren</h2>
+                <p class="text-gray-300">
+                    Oefen met flashcards, quiz en matching games om de stof te beheersen.
+                </p>
+            </a>
+
+            <!-- WWI Card -->
+            <a href="ww1.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70">
+                <div class="text-4xl mb-4">🌍</div>
+                <h2 class="text-2xl font-bold mb-3">Eerste Wereldoorlog</h2>
+                <p class="text-gray-300">
+                    Lees over de oorzaken, gebeurtenissen en gevolgen van WOI.
+                </p>
+            </a>
+
+            <!-- WWII Card -->
+            <a href="ww2.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70">
+                <div class="text-4xl mb-4">🏛️</div>
+                <h2 class="text-2xl font-bold mb-3">Tweede Wereldoorlog</h2>
+                <p class="text-gray-300">
+                    Ontdek de geschiedenis van WOII en de impact op Nederland.
+                </p>
+            </a>
+        </div>
+
+        <!-- Features Section -->
+        <div class="mt-24 max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-8">Leer op je eigen manier</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="text-3xl mb-4">🎴</div>
+                    <h3 class="text-xl font-bold mb-2">Flashcards</h3>
+                    <p class="text-gray-300">Leer belangrijke termen en definities</p>
+                </div>
+                <div>
+                    <div class="text-3xl mb-4">❓</div>
+                    <h3 class="text-xl font-bold mb-2">Quiz</h3>
+                    <p class="text-gray-300">Test je kennis met multiple choice vragen</p>
+                </div>
+                <div>
+                    <div class="text-3xl mb-4">🔄</div>
+                    <h3 class="text-xl font-bold mb-2">Matching</h3>
+                    <p class="text-gray-300">Verbind termen met hun definities</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-24 text-center text-gray-400">
+            <p>Gemaakt voor geschiedenis leerlingen</p>
+        </footer>
+    </section>
+</body>
+</html> 

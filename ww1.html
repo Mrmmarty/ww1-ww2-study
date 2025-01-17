@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De Eerste Wereldoorlog - Leerstof</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <style>
+        .hero-section {
+            min-height: 100vh;
+            background-color: #1a1f2d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .nav-links {
+            position: fixed;
+            top: 1rem;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            border-left: 2px solid #ffffff;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -0.5rem;
+            top: 0;
+            width: 1rem;
+            height: 1rem;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+        .definition {
+            border-left: 4px solid #4f46e5;
+            padding-left: 1rem;
+            margin: 1rem 0;
+        }
+        .content-section {
+            min-height: 100vh;
+            padding: 5rem 1rem;
+        }
+    </style>
+</head>
+<body class="bg-[#1a1f2d] text-white">
+    <!-- Navigation Links -->
+    <div class="nav-links">
+        <a href="ww1.html" class="text-white/80">WOI</a>
+        <a href="ww2.html" class="text-white/80">WOII</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="text-7xl font-bold mb-4 text-center">De Eerste Wereldoorlog</h1>
+        <p class="text-2xl text-gray-300">1914 - 1918</p>
+        <a href="#timeline" class="absolute bottom-8 animate-bounce">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Content Sections -->
+    <main class="bg-[#1a1f2d]">
+        <!-- Timeline Section -->
+        <section id="timeline" class="content-section">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl font-bold mb-12">Chronologisch Verloop</h2>
+                
+                <div class="space-y-8">
+                    <div class="timeline-item">
+                        <h3 class="text-xl font-bold">28 juni 1914</h3>
+                        <p>De Servische nationalist Gavrillo Princip vermoordt kroonprins Franz Ferdinand van Oostenrijk-Hongarije.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3 class="text-xl font-bold">28 juli 1914</h3>
+                        <p>Oostenrijk-Hongarije valt Servië binnen. Rusland, als bondgenoot van Servië, verklaart de oorlog aan Oostenrijk-Hongarije. Dit trekt zowel de geallieerden als de centralen in de oorlog.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3 class="text-xl font-bold">11 november 1918, 11:00 uur</h3>
+                        <p>Wapenstilstand: Alle betrokken landen leggen hun wapens neer. Amerika had zich bij de geallieerden aangesloten, waardoor Duitsland wist dat ze niet konden winnen.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <h3 class="text-xl font-bold">1919</h3>
+                        <p>Het Verdrag van Versailles wordt getekend door Frankrijk, de Verenigde Staten, Het Verenigd Koninkrijk en Italië.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bondgenootschappen Section -->
+        <section id="bondgenootschappen" class="content-section">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl font-bold mb-12">Bondgenootschappen</h2>
+                
+                <div class="definition bg-gray-800/50 p-4 rounded mb-8">
+                    <p>Landen die elkaar steunen en samen een "team" vormen. Een voordeel is dat je er nooit alleen voor staat, een nadeel is dat als 1 van de bondgenoten een oorlog start, je erin mee moet.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-gray-800/50 p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-4">De Geallieerden</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Rusland</li>
+                            <li>Frankrijk</li>
+                            <li>Engeland/het Verenigd koninkrijk</li>
+                            <li>Verenigde Staten (later toegetreden)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-800/50 p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-4">De Centralen</h3>
+                        <ul class="list-disc list-inside space-y-2">
+                            <li>Oostenrijk-Hongarije</li>
+                            <li>Duitsland</li>
+                            <li>Italië</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Belangrijke Begrippen Section -->
+        <section id="belangrijke-begrippen" class="content-section">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl font-bold mb-12">Belangrijke Begrippen</h2>
+                
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="bg-gray-800/50 p-6 rounded-lg">
+                        <ul class="space-y-6">
+                            <li class="definition">
+                                <span class="font-bold text-xl">Militarisme</span>
+                                <p>Het leger heeft een superbelangrijke plek in de samenleving. Iedereen kijkt naar het leger op, wil erbij horen en er is heel veel interesse in wapens en alles wat met het leger te maken heeft.</p>
+                            </li>
+                            <li class="definition">
+                                <span class="font-bold text-xl">Nationalisme</span>
+                                <p>Liefde voor eigen land. Kenmerken zijn: een vlag, een volkslied, de cultuur van het land, de taal die ze er spreken.</p>
+                            </li>
+                            <li class="definition">
+                                <span class="font-bold text-xl">Imperialisme</span>
+                                <p>Landen stichten kolonies in andere landen. Hoe meer kolonies, hoe machtiger een land is.</p>
+                            </li>
+                            <li class="definition">
+                                <span class="font-bold text-xl">Wapenwedloop</span>
+                                <p>Een soort wedstrijd tussen landen, wie heeft de beste, de meeste en de gevaarlijkste wapens. Dit zorgde dat landen elkaar gingen wantrouwen, want waarom maak jij opeens zoveel wapens?</p>
+                            </li>
+                            <li class="definition">
+                                <span class="font-bold text-xl">Loopgraven</span>
+                                <p>Lange tunnels die de Duitsers en de Fransen hebben gegraven in de tijd van de Eerste Wereldoorlog. Hierin leefde de soldaten en zochten ze naar beschutting.</p>
+                            </li>
+                            <li class="definition">
+                                <span class="font-bold text-xl">Neutraal</span>
+                                <p>Nederland wilde neutraal blijven tijdens de oorlog, dus ze hoorde niet bij de Centralen en ook niet bij de Geallieerden.</p>
+                            </li>
+                            <li class="definition">
+                                <span class="font-bold text-xl">Propaganda</span>
+                                <p>Reclame voor denkbeelden. Gemaakt en gecontroleerd door eigen regering.</p>
+                            </li>
+                            <li class="definition">
+                                <span class="font-bold text-xl">Herstelbetalingen</span>
+                                <p>Duitsland moest de schade van de oorlog terugbetalen aan landen zoals Frankrijk en België.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5 Oorzaken Section -->
+        <section id="5-oorzaken" class="content-section">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl font-bold mb-12">5 Oorzaken van WOI</h2>
+                
+                <div class="bg-gray-800/50 p-8 rounded-lg">
+                    <ol class="list-decimal list-inside space-y-6">
+                        <li class="text-2xl">Wapenwedloop</li>
+                        <li class="text-2xl">Nationalisme</li>
+                        <li class="text-2xl">Modern Imperialisme</li>
+                        <li class="text-2xl">Bondgenoten</li>
+                        <li class="text-2xl">Militairisme</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verdrag van Versailles Section -->
+        <section id="verdrag-van-versailles" class="content-section">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-5xl font-bold mb-12">Verdrag van Versailles (1919)</h2>
+                
+                <div class="bg-gray-800/50 p-8 rounded-lg">
+                    <p class="text-xl mb-8">Dit vredesverdrag werd gemaakt door Frankrijk, de Verenigde Staten, Het Verenigd Koninkrijk en Italië. De belangrijkste punten waren:</p>
+                    <ul class="list-disc list-inside space-y-4 text-lg">
+                        <li>Duitsland moet de schuld van de Eerste Wereldoorlog op zich nemen</li>
+                        <li>Leger moet kleiner worden (max. 100.000 man)</li>
+                        <li>Herstelbetalingen aan Frankrijk en België</li>
+                        <li>10% van het grondgebied afstaan</li>
+                        <li>Alle bezette gebieden (koloniën) afstaan</li>
+                        <li>Geen luchtmacht en grote oorlogsschepen meer</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        ScrollReveal().reveal('.timeline-item', {
+            delay: 200,
+            distance: '50px',
+            duration: 1000,
+            easing: 'ease-in-out',
+            origin: 'left',
+            interval: 200
+        });
+
+        ScrollReveal().reveal('.definition, .bg-gray-800\\/50', {
+            delay: 200,
+            distance: '50px',
+            duration: 1000,
+            easing: 'ease-in-out',
+            origin: 'bottom',
+            interval: 200
+        });
+    </script>
+</body>
+</html> 

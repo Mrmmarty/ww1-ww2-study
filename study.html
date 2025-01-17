@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leren - WOI & WOII</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6, button {
+            font-family: 'OpenDyslexic', sans-serif;
+        }
+        .flashcard {
+            perspective: 1000px;
+            height: 200px;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        .matched-pair {
+            border: none;
+            background-color: rgba(16, 185, 129, 0.2);
+            position: relative;
+        }
+        .matched-pair::after {
+            content: '✓';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: #10B981;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .wrong-pair {
+            border: none;
+            background-color: rgba(239, 68, 68, 0.2);
+            position: relative;
+        }
+        .wrong-pair::after {
+            content: '✗';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: #EF4444;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .matched-pair .draggable {
+            background-color: rgba(16, 185, 129, 0.3);
+            border: 2px solid #10B981;
+        }
+        .wrong-pair .draggable {
+            background-color: rgba(239, 68, 68, 0.3);
+            border: 2px solid #EF4444;
+        }
+        .draggable {
+            cursor: grab;
+            user-select: none;
+            padding: 1rem;
+            line-height: 1.8;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .draggable:active {
+            cursor: grabbing;
+        }
+        .droppable {
+            min-height: 80px;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            line-height: 1.8;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .droppable.drag-over {
+            border-color: #6366F1;
+            background-color: rgba(99, 102, 241, 0.2);
+            transform: scale(1.02);
+        }
+        .droppable .definition-text {
+            margin-bottom: 0.5rem;
+        }
+        .droppable .matched-term {
+            min-height: 3rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+        /* Increase spacing for better readability */
+        .quiz-option {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .quiz-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        /* Increase text spacing */
+        p, span, label {
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="bg-[#1a1f2d] text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex space-x-4">
+                    <a href="ww1.html" class="text-white/80 hover:text-white">WOI</a>
+                    <a href="ww2.html" class="text-white/80 hover:text-white">WOII</a>
+                </div>
+                <div class="flex space-x-4">
+                    <button onclick="showSection('flashcards')" class="text-white/80 hover:text-white">Flashcards</button>
+                    <button onclick="showSection('quiz')" class="text-white/80 hover:text-white">Quiz</button>
+                    <button onclick="showSection('matching')" class="text-white/80 hover:text-white">Matching</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 px-4 min-h-screen">
+        <!-- Flashcards Section -->
+        <section id="flashcards" class="max-w-4xl mx-auto py-8">
+            <h2 class="text-4xl font-bold mb-8 text-center">Flashcards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="flashcards-container">
+                <!-- Flashcards will be inserted here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Quiz Section -->
+        <section id="quiz" class="max-w-4xl mx-auto py-8 hidden">
+            <h2 class="text-4xl font-bold mb-8 text-center">Quiz</h2>
+            <div id="quiz-container" class="space-y-8">
+                <!-- Quiz questions will be inserted here by JavaScript -->
+            </div>
+            <div class="mt-8 text-center">
+                <button onclick="checkAnswers()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                    Check Answers
+                </button>
+            </div>
+        </section>
+
+        <!-- Matching Section -->
+        <section id="matching" class="max-w-4xl mx-auto py-8 hidden">
+            <h2 class="text-4xl font-bold mb-8 text-center">Matching Game</h2>
+            <p class="text-center mb-8 text-gray-300">Sleep de termen naar de juiste definities om ze te matchen.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-800/50 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4">Termen</h3>
+                    <div id="terms-container" class="space-y-3">
+                        <!-- Terms will be inserted here -->
+                    </div>
+                </div>
+                <div class="bg-gray-800/50 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4">Definities</h3>
+                    <div id="definitions-container" class="space-y-3">
+                        <!-- Definitions will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="checkMatches()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                    Check Antwoorden
+                </button>
+                <button onclick="resetMatching()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg ml-4">
+                    Reset
+                </button>
+                <button onclick="shuffleDefinitions()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg ml-4">
+                    Shuffle
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Study content
+        const studyContent = {
+            flashcards: [
+                { front: "Militarisme", back: "Het leger heeft een superbelangrijke plek in de samenleving. Iedereen kijkt naar het leger op." },
+                { front: "Nationalisme", back: "Liefde voor eigen land. Kenmerken zijn: vlag, volkslied, cultuur en taal." },
+                { front: "Imperialisme", back: "Landen stichten kolonies in andere landen. Hoe meer kolonies, hoe machtiger een land is." },
+                { front: "Wapenwedloop", back: "Wedstrijd tussen landen voor de beste en meeste wapens, leidend tot wantrouwen." },
+                { front: "Antisemitisme", back: "Jodenhaat. Discriminatie van de Joden." },
+                { front: "Holocaust", back: "Massamoord op de Europese Joden tijdens de Tweede Wereldoorlog." },
+                { front: "NSB", back: "De Nederlandse politieke partij die Hitler en de bezetters steunde." },
+                { front: "NSDAP", back: "De politieke partij van Hitler." },
+                { front: "Loopgravenoorlog", back: "Soldaten vochten vanuit loopgraven. Een loopgraaf is een diepe geul in de grond." },
+                { front: "Neutraliteit", back: "Je kiest geen partij in een oorlog. Nederland was neutraal in WOI." },
+                { front: "Propaganda", back: "Het beïnvloeden van mensen door het verspreiden van informatie die in je voordeel is." },
+                { front: "Herstelbetalingen", back: "Na WOI moest Duitsland veel geld betalen aan andere landen voor de schade." },
+                { front: "Concentratiekamp", back: "Een kamp waar mensen onder dwang van het leger bij elkaar gebracht werden." },
+                { front: "Doorgangskamp", back: "Een tijdelijk kamp waar gevangenen werden verzameld voordat ze naar andere kampen werden gestuurd." },
+                { front: "Werkkamp", back: "Een kamp waar mensen onder zeer slechte omstandigheden moesten werken." },
+                { front: "Internatiekamp", back: "Een kamp waar mensen werden geïnterneerd tijdens de oorlog." },
+                { front: "Vernietigingskamp", back: "Een kamp waar mensen, vooral Joden, naartoe werden gestuurd om gedood/vergast te worden." },
+                { front: "Wereldoorlog", back: "Een oorlog waar meerdere landen over de hele wereld aan mee doen." },
+                { front: "Wapenstilstand", back: "Als landen besluiten om te stoppen met vechten. Dit gebeurde op 11-11-1918 om 11 uur." },
+                { front: "Bondgenootschappen", back: "Landen die elkaar steunen en samen een 'team' vormen. Voordeel: je staat er nooit alleen voor. Nadeel: als één bondgenoot oorlog start, moet je meedoen." }
+            ],
+            quiz: [
+                {
+                    question: "Wanneer begon de Eerste Wereldoorlog?",
+                    options: ["28 juni 1914", "28 juli 1914", "1 augustus 1914", "11 november 1918"],
+                    correct: 1,
+                    explanation: "De Eerste Wereldoorlog begon op 28 juli 1914 toen Oostenrijk-Hongarije de oorlog verklaarde aan Servië."
+                },
+                {
+                    question: "Wat waren de Geallieerden in WOI?",
+                    options: [
+                        "Duitsland, Oostenrijk-Hongarije, Italië",
+                        "Rusland, Frankrijk, Verenigd Koninkrijk, Verenigde Staten",
+                        "Nederland, België, Zwitserland",
+                        "Japan, China, Thailand"
+                    ],
+                    correct: 1,
+                    explanation: "De Geallieerden bestonden uit Rusland, Frankrijk, het Verenigd Koninkrijk en later ook de Verenigde Staten."
+                },
+                {
+                    question: "Wanneer viel Duitsland Nederland binnen in WOII?",
+                    options: ["10 mei 1940", "14 mei 1940", "15 mei 1940", "5 mei 1945"],
+                    correct: 0,
+                    explanation: "Op 10 mei 1940 viel Duitsland Nederland binnen, wat het begin was van de Duitse bezetting."
+                },
+                {
+                    question: "Wat was de aanleiding voor WOI?",
+                    options: [
+                        "De moord op Frans Ferdinand",
+                        "De invasie van Polen",
+                        "Het bombardement op Pearl Harbor",
+                        "De Russische Revolutie"
+                    ],
+                    correct: 0,
+                    explanation: "De moord op aartshertog Frans Ferdinand in Sarajevo was de directe aanleiding voor het uitbreken van WOI."
+                },
+                {
+                    question: "Hoeveel jaar duurde de Eerste Wereldoorlog?",
+                    options: ["3 jaar", "4 jaar", "5 jaar", "6 jaar"],
+                    correct: 1,
+                    explanation: "WOI duurde 4 jaar, van 28 juli 1914 tot 11 november 1918."
+                },
+                {
+                    question: "Wat was het Verdrag van Versailles?",
+                    options: [
+                        "Een vredesverdrag dat een einde maakte aan WOI",
+                        "Een handelsverdrag tussen Frankrijk en Duitsland",
+                        "Een militaire alliantie tussen Europese landen",
+                        "Een neutraliteitsverdrag voor Nederland"
+                    ],
+                    correct: 0,
+                    explanation: "Het Verdrag van Versailles was het vredesverdrag dat in 1919 een einde maakte aan WOI."
+                },
+                {
+                    question: "Wat gebeurde er op 14 mei 1940 in Rotterdam?",
+                    options: [
+                        "Het bombardement op Rotterdam",
+                        "De bevrijding van Rotterdam",
+                        "De eerste razzia",
+                        "De capitulatie van Nederland"
+                    ],
+                    correct: 0,
+                    explanation: "Op 14 mei 1940 werd Rotterdam gebombardeerd door de Duitse Luftwaffe, wat leidde tot de Nederlandse overgave."
+                },
+                {
+                    question: "Wat waren de gevolgen van het Verdrag van Versailles voor Duitsland?",
+                    options: [
+                        "Alleen herstelbetalingen",
+                        "Alleen territoriale verliezen",
+                        "Alleen militaire beperkingen",
+                        "Zowel herstelbetalingen, territoriale verliezen als militaire beperkingen"
+                    ],
+                    correct: 3,
+                    explanation: "Duitsland moest herstelbetalingen doen, 10% van het grondgebied afstaan, het leger verkleinen tot 100.000 man, en mocht geen luchtmacht of grote oorlogsschepen meer hebben."
+                },
+                {
+                    question: "Welke stappen gebruikten de Nazi's in de Holocaust?",
+                    options: [
+                        "Alleen deportatie naar kampen",
+                        "Discriminatie, buitensluiting, aparte wijken, deportatie, vermoording",
+                        "Alleen discriminatie en buitensluiting",
+                        "Direct vermoording zonder tussenstappen"
+                    ],
+                    correct: 1,
+                    explanation: "De Joden werden systematisch vervolgd: eerst gediscrimineerd, dan buitengesloten, in aparte wijken gezet, gedeporteerd naar kampen, en uiteindelijk vermoord."
+                },
+                {
+                    question: "Hoeveel soorten concentratiekampen waren er in WOII?",
+                    options: [
+                        "2 soorten: werk- en vernietigingskampen",
+                        "3 soorten: doorgang, werk en vernietiging",
+                        "4 soorten: doorgang, internatie, werk en vernietiging",
+                        "5 soorten: doorgang, internatie, werk, straf en vernietiging"
+                    ],
+                    correct: 2,
+                    explanation: "Er waren 4 soorten kampen: doorgangskampen, internatiekampen, werkkampen en vernietigingskampen."
+                }
+            ],
+            matching: [
+                { term: "Militarisme", definition: "Het leger heeft een superbelangrijke plek in de samenleving" },
+                { term: "Nationalisme", definition: "Liefde voor eigen land, met vlag en volkslied" },
+                { term: "Imperialisme", definition: "Landen stichten kolonies in andere landen" },
+                { term: "Holocaust", definition: "Massamoord op de Europese Joden in WOII" },
+                { term: "NSB", definition: "Nederlandse partij die Hitler steunde" },
+                { term: "Loopgravenoorlog", definition: "Vechten vanuit diepe geulen in de grond" },
+                { term: "Propaganda", definition: "Het beïnvloeden van mensen met gerichte informatie" },
+                { term: "Concentratiekamp", definition: "Kamp waar mensen onder dwang werden vastgehouden" },
+                { term: "Wapenstilstand", definition: "Stoppen met vechten, gebeurde op 11-11-1918" },
+                { term: "Vernietigingskamp", definition: "Kamp waar mensen werden gedood/vergast" }
+            ]
+        };
+
+        // Initialize flashcards
+        function initializeFlashcards() {
+            const container = document.getElementById('flashcards-container');
+            container.innerHTML = ''; // Clear container
+            
+            // Add filter buttons
+            const filterDiv = document.createElement('div');
+            filterDiv.className = 'mb-8 flex justify-center space-x-4';
+            filterDiv.innerHTML = `
+                <button onclick="filterFlashcards('all')" class="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">Alle</button>
+                <button onclick="filterFlashcards('ww1')" class="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">WOI</button>
+                <button onclick="filterFlashcards('ww2')" class="px-4 py-2 bg-blue-600 rounded hover:bg-blue-700">WOII</button>
+            `;
+            container.parentElement.insertBefore(filterDiv, container);
+
+            // Create flashcards
+            studyContent.flashcards.forEach(card => {
+                const flashcard = document.createElement('div');
+                flashcard.className = 'flashcard';
+                flashcard.innerHTML = `
+                    <div class="flashcard-inner bg-gray-800/50 rounded-lg">
+                        <div class="flashcard-front bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold">${card.front}</h3>
+                        </div>
+                        <div class="flashcard-back bg-gray-800/50 rounded-lg">
+                            <p>${card.back}</p>
+                        </div>
+                    </div>
+                `;
+                flashcard.addEventListener('click', () => {
+                    flashcard.classList.toggle('flipped');
+                });
+                container.appendChild(flashcard);
+            });
+        }
+
+        // Filter flashcards
+        function filterFlashcards(filter) {
+            const container = document.getElementById('flashcards-container');
+            container.innerHTML = '';
+            
+            let filteredCards = studyContent.flashcards;
+            if (filter === 'ww1') {
+                filteredCards = studyContent.flashcards.filter(card => 
+                    ['Militarisme', 'Nationalisme', 'Imperialisme', 'Wapenwedloop', 'Loopgravenoorlog', 'Neutraliteit'].includes(card.front)
+                );
+            } else if (filter === 'ww2') {
+                filteredCards = studyContent.flashcards.filter(card => 
+                    ['Antisemitisme', 'Holocaust', 'NSB', 'NSDAP', 'Concentratiekamp', 'Doorgangskamp', 'Werkkamp'].includes(card.front)
+                );
+            }
+            
+            filteredCards.forEach(card => {
+                const flashcard = document.createElement('div');
+                flashcard.className = 'flashcard';
+                flashcard.innerHTML = `
+                    <div class="flashcard-inner bg-gray-800/50 rounded-lg">
+                        <div class="flashcard-front bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold">${card.front}</h3>
+                        </div>
+                        <div class="flashcard-back bg-gray-800/50 rounded-lg">
+                            <p>${card.back}</p>
+                        </div>
+                    </div>
+                `;
+                flashcard.addEventListener('click', () => {
+                    flashcard.classList.toggle('flipped');
+                });
+                container.appendChild(flashcard);
+            });
+        }
+
+        // Initialize quiz
+        function initializeQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = ''; // Clear container
+            
+            studyContent.quiz.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'bg-gray-800/50 p-6 rounded-lg';
+                questionDiv.innerHTML = `
+                    <h3 class="text-xl font-bold mb-6">${q.question}</h3>
+                    <div class="space-y-4">
+                        ${q.options.map((option, i) => `
+                            <label class="flex items-center space-x-4 quiz-option">
+                                <input type="radio" name="q${index}" value="${i}" class="form-radio w-5 h-5">
+                                <span class="text-lg">${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="mt-6 text-green-500 hidden text-lg" id="explanation${index}">
+                        ${q.explanation}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // Check quiz answers with explanations
+        function checkAnswers() {
+            let score = 0;
+            studyContent.quiz.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                const explanationDiv = document.getElementById(`explanation${index}`);
+                const questionDiv = explanationDiv.parentElement;
+                
+                if (selected) {
+                    if (parseInt(selected.value) === q.correct) {
+                        score++;
+                        questionDiv.classList.add('bg-green-900/30');
+                    } else {
+                        questionDiv.classList.add('bg-red-900/30');
+                    }
+                } else {
+                    questionDiv.classList.add('bg-yellow-900/30');
+                }
+                
+                explanationDiv.classList.remove('hidden');
+            });
+
+            alert(`Je score: ${score} van de ${studyContent.quiz.length} vragen correct!`);
+        }
+
+        // Initialize matching game
+        function initializeMatching() {
+            const termsContainer = document.getElementById('terms-container');
+            const definitionsContainer = document.getElementById('definitions-container');
+            
+            // Clear containers
+            termsContainer.innerHTML = '';
+            definitionsContainer.innerHTML = '';
+
+            // Add CSS for ordering
+            definitionsContainer.style.display = 'flex';
+            definitionsContainer.style.flexDirection = 'column';
+            definitionsContainer.style.gap = '0.75rem';
+
+            // Shuffle definitions
+            const shuffledDefinitions = [...studyContent.matching]
+                .map(item => ({ ...item }))
+                .sort(() => Math.random() - 0.5);
+
+            // Add terms and definitions
+            studyContent.matching.forEach((item, index) => {
+                // Create term element
+                const termDiv = document.createElement('div');
+                termDiv.className = 'p-3 bg-gray-700/50 rounded draggable';
+                termDiv.setAttribute('draggable', 'true');
+                termDiv.setAttribute('data-term', item.term);
+                termDiv.innerHTML = `<span class="font-medium">${item.term}</span>`;
+                
+                // Add drag events
+                termDiv.addEventListener('dragstart', handleDragStart);
+                termDiv.addEventListener('dragend', handleDragEnd);
+                termsContainer.appendChild(termDiv);
+
+                // Create definition drop zone
+                const defDiv = document.createElement('div');
+                defDiv.className = 'p-3 bg-gray-700/50 rounded droppable';
+                defDiv.setAttribute('data-definition', shuffledDefinitions[index].definition);
+                defDiv.style.transition = 'all 0.3s ease';
+                defDiv.style.order = '0';
+                defDiv.innerHTML = `
+                    <div class="definition-text">${shuffledDefinitions[index].definition}</div>
+                    <div class="matched-term"></div>
+                `;
+                
+                // Add drop events
+                defDiv.addEventListener('dragover', handleDragOver);
+                defDiv.addEventListener('dragenter', handleDragEnter);
+                defDiv.addEventListener('dragleave', handleDragLeave);
+                defDiv.addEventListener('drop', handleDrop);
+                definitionsContainer.appendChild(defDiv);
+            });
+        }
+
+        // Drag and Drop handlers
+        function handleDragStart(e) {
+            e.target.classList.add('opacity-50');
+            e.dataTransfer.setData('text/plain', e.target.getAttribute('data-term'));
+        }
+
+        function handleDragEnd(e) {
+            e.target.classList.remove('opacity-50');
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            const dropZone = e.target.closest('.droppable');
+            if (dropZone) {
+                dropZone.classList.add('drag-over');
+            }
+        }
+
+        function handleDragLeave(e) {
+            const dropZone = e.target.closest('.droppable');
+            if (dropZone) {
+                dropZone.classList.remove('drag-over');
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            const dropZone = e.target.closest('.droppable');
+            if (!dropZone) return;
+
+            dropZone.classList.remove('drag-over');
+            const term = e.dataTransfer.getData('text/plain');
+            const termElement = document.querySelector(`[data-term="${term}"]`);
+            
+            // If there's already a term here, return it to the terms container
+            const existingTerm = dropZone.querySelector('.draggable');
+            if (existingTerm) {
+                document.getElementById('terms-container').appendChild(existingTerm);
+            }
+
+            // Move the dragged term to the drop zone
+            dropZone.querySelector('.matched-term').appendChild(termElement);
+
+            // Move filled definitions to bottom
+            const definitionsContainer = document.getElementById('definitions-container');
+            const dropZones = Array.from(definitionsContainer.children);
+            const filled = dropZones.filter(zone => zone.querySelector('.draggable'));
+            const empty = dropZones.filter(zone => !zone.querySelector('.draggable'));
+            
+            // Reorder with animation
+            empty.forEach(zone => {
+                zone.style.order = '0';
+                zone.style.opacity = '1';
+                zone.style.transform = 'translateY(0)';
+            });
+            
+            filled.forEach((zone, index) => {
+                zone.style.order = '1';
+                // Add a smooth transition
+                zone.style.transition = 'all 0.5s ease';
+                zone.style.opacity = '0.8';
+                zone.style.transform = 'translateY(10px)';
+            });
+        }
+
+        // Check matching answers
+        function checkMatches() {
+            let correct = 0;
+            const dropZones = document.querySelectorAll('.droppable');
+            
+            // First remove all previous feedback
+            dropZones.forEach(zone => {
+                zone.classList.remove('matched-pair', 'wrong-pair');
+            });
+            
+            // Add new feedback with animation delay
+            dropZones.forEach((zone, index) => {
+                const termElement = zone.querySelector('[data-term]');
+                if (!termElement) return;
+
+                const term = termElement.getAttribute('data-term');
+                const definition = zone.getAttribute('data-definition');
+                const correctDef = studyContent.matching.find(item => item.term === term).definition;
+                
+                // Delay the feedback for each item
+                setTimeout(() => {
+                    if (definition === correctDef) {
+                        correct++;
+                        zone.classList.add('matched-pair');
+                        // Add a subtle animation
+                        zone.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            zone.style.transform = 'scale(1)';
+                        }, 300);
+                    } else {
+                        zone.classList.add('wrong-pair');
+                        // Add a subtle shake animation
+                        zone.style.transform = 'translateX(5px)';
+                        setTimeout(() => {
+                            zone.style.transform = 'translateX(-5px)';
+                            setTimeout(() => {
+                                zone.style.transform = 'translateX(0)';
+                            }, 100);
+                        }, 100);
+                    }
+                }, index * 200); // Stagger the animations
+            });
+
+            // Show the score after all animations are complete
+            setTimeout(() => {
+                const message = `Je hebt ${correct} van de ${studyContent.matching.length} matches correct!`;
+                const scoreDiv = document.createElement('div');
+                scoreDiv.className = 'fixed top-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                scoreDiv.textContent = message;
+                document.body.appendChild(scoreDiv);
+                
+                // Remove the score message after 3 seconds
+                setTimeout(() => {
+                    scoreDiv.style.opacity = '0';
+                    setTimeout(() => scoreDiv.remove(), 300);
+                }, 3000);
+            }, dropZones.length * 200 + 500);
+        }
+
+        // Reset matching game
+        function resetMatching() {
+            const termsContainer = document.getElementById('terms-container');
+            const terms = document.querySelectorAll('[data-term]');
+            const dropZones = document.querySelectorAll('.droppable');
+            
+            // Reset all dropzones to original state
+            dropZones.forEach(zone => {
+                zone.style.transform = 'scale(0.95)';
+                zone.style.order = '0';
+                zone.style.opacity = '1';
+                setTimeout(() => {
+                    zone.style.transform = 'scale(1)';
+                    zone.classList.remove('matched-pair', 'wrong-pair', 'drag-over');
+                }, 200);
+            });
+            
+            // Move all terms back with animation
+            terms.forEach((term, index) => {
+                setTimeout(() => {
+                    term.style.opacity = '0';
+                    setTimeout(() => {
+                        termsContainer.appendChild(term);
+                        term.style.opacity = '1';
+                    }, 200);
+                }, index * 100);
+            });
+        }
+
+        // Shuffle definitions
+        function shuffleDefinitions() {
+            resetMatching();
+            initializeMatching();
+        }
+
+        // Show selected section
+        function showSection(sectionId) {
+            ['flashcards', 'quiz', 'matching'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            initializeFlashcards();
+            initializeQuiz();
+            initializeMatching();
+            showSection('flashcards');
+        };
+    </script>
+</body>
+</html> 
