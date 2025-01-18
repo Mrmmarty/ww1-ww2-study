@@ -454,26 +454,45 @@
         // Study content
         const studyContent = {
             flashcards: [
-                { front: "Militarisme", back: "Het leger heeft een superbelangrijke plek in de samenleving. Iedereen kijkt naar het leger op." },
-                { front: "Nationalisme", back: "Liefde voor eigen land. Kenmerken zijn: vlag, volkslied, cultuur en taal." },
+                { front: "Militarisme", back: "Het leger heeft een superbelangrijke plek in de samenleving. Iedereen kijkt naar het leger op, wil erbij horen en er is heel veel interesse in wapens en alles wat met het leger te maken heeft." },
+                { front: "Nationalisme", back: "Liefde voor eigen land. Kenmerken zijn: een vlag, een volkslied, de cultuur van het land, de taal die ze er spreken." },
                 { front: "Imperialisme", back: "Landen stichten kolonies in andere landen. Hoe meer kolonies, hoe machtiger een land is." },
-                { front: "Wapenwedloop", back: "Wedstrijd tussen landen voor de beste en meeste wapens, leidend tot wantrouwen." },
+                { front: "Wapenwedloop", back: "Een soort wedstrijd tussen landen, wie heeft de beste, de meeste en de gevaarlijkste wapens. Dit zorgde dat landen elkaar gingen wantrouwen, want waarom maak jij opeens zoveel wapens?" },
                 { front: "Antisemitisme", back: "Jodenhaat. Discriminatie van de Joden." },
-                { front: "Holocaust", back: "Massamoord op de Europese Joden tijdens de Tweede Wereldoorlog." },
-                { front: "NSB", back: "De Nederlandse politieke partij die Hitler en de bezetters steunde." },
+                { front: "Holocaust", back: "Massamoord, in de Tweede Wereldoorlog hebben we het dan over de massamoord op de Europese Joden." },
+                { front: "NSB", back: "De Nederlandse politieke partij die het eens was met Hitler en de bezetters steunde." },
                 { front: "NSDAP", back: "De politieke partij van Hitler." },
-                { front: "Loopgravenoorlog", back: "Soldaten vochten vanuit loopgraven. Een loopgraaf is een diepe geul in de grond." },
-                { front: "Neutraliteit", back: "Je kiest geen partij in een oorlog. Nederland was neutraal in WOI." },
-                { front: "Propaganda", back: "Het beïnvloeden van mensen door het verspreiden van informatie die in je voordeel is." },
-                { front: "Herstelbetalingen", back: "Na WOI moest Duitsland veel geld betalen aan andere landen voor de schade." },
+                { front: "Loopgraven", back: "Lange tunnels die de Duitsers en de Fransen hebben gegraven in de tijd van de Eerste Wereldoorlog. Hierin leefde de soldaten en zochten ze naar beschutting." },
+                { front: "Neutraliteit", back: "Nederland wilde neutraal blijven tijdens de oorlog, dus ze hoorde niet bij de Centralen en ook niet bij de Geallieerden." },
+                { front: "Propaganda", back: "Reclame voor denkbeelden. Gemaakt en gecontroleerd door eigen regering." },
+                { front: "Herstelbetalingen", back: "Duitsland moest de schade van de oorlog terugbetalen aan landen zoals Frankrijk en België." },
                 { front: "Concentratiekamp", back: "Een kamp waar mensen onder dwang van het leger bij elkaar gebracht werden." },
                 { front: "Doorgangskamp", back: "Een tijdelijk kamp waar gevangenen werden verzameld voordat ze naar andere kampen werden gestuurd." },
                 { front: "Werkkamp", back: "Een kamp waar mensen onder zeer slechte omstandigheden moesten werken." },
-                { front: "Internatiekamp", back: "Een kamp waar mensen werden geïnterneerd tijdens de oorlog." },
                 { front: "Vernietigingskamp", back: "Een kamp waar mensen, vooral Joden, naartoe werden gestuurd om gedood/vergast te worden." },
                 { front: "Wereldoorlog", back: "Een oorlog waar meerdere landen over de hele wereld aan mee doen." },
                 { front: "Wapenstilstand", back: "Als landen besluiten om te stoppen met vechten. Dit gebeurde op 11-11-1918 om 11 uur." },
-                { front: "Bondgenootschappen", back: "Landen die elkaar steunen en samen een 'team' vormen. Voordeel: je staat er nooit alleen voor. Nadeel: als één bondgenoot oorlog start, moet je meedoen." }
+                { front: "Bondgenootschappen", back: "Landen die elkaar steunen en samen een 'team' vormen. Een voordeel is dat je er nooit alleen voor staat, een nadeel is dat als 1 van de bondgenoten een oorlog start, je erin mee moet." },
+                { front: "Bondgenoten van Hitler", back: "Italië en Japan" },
+                { front: "Geallieerden WOII", back: "Amerika, Engeland, Frankrijk en Rusland" },
+                { front: "Duitse bezetting", back: "Nederland was bezet door Duitsland" },
+                { front: "Centralen", back: "Oostenrijk-Hongarije, Duitsland en Italië" }
+            ],
+            matching: [
+                { term: "Militarisme", definition: "Het leger heeft een superbelangrijke plek in de samenleving. Iedereen kijkt naar het leger op." },
+                { term: "Nationalisme", definition: "Liefde voor eigen land. Kenmerken zijn: vlag, volkslied, cultuur en taal." },
+                { term: "Imperialisme", definition: "Landen stichten kolonies in andere landen. Hoe meer kolonies, hoe machtiger een land is." },
+                { term: "Holocaust", definition: "Massamoord op de Europese Joden in WOII" },
+                { term: "NSB", definition: "Nederlandse partij die Hitler steunde" },
+                { term: "Loopgraven", definition: "Lange tunnels waar soldaten in leefden en vochten" },
+                { term: "Propaganda", definition: "Reclame voor denkbeelden, gemaakt door de regering" },
+                { term: "Concentratiekamp", definition: "Kamp waar mensen onder dwang werden vastgehouden" },
+                { term: "Wapenstilstand", definition: "Stoppen met vechten, gebeurde op 11-11-1918" },
+                { term: "Vernietigingskamp", definition: "Kamp waar mensen werden gedood/vergast" },
+                { term: "Bondgenoten van Hitler", definition: "Italië en Japan" },
+                { term: "Geallieerden WOII", definition: "Amerika, Engeland, Frankrijk en Rusland" },
+                { term: "Duitse bezetting", definition: "Nederland was bezet door Duitsland" },
+                { term: "Centralen", definition: "Oostenrijk-Hongarije, Duitsland en Italië" }
             ],
             quiz: [
                 {
@@ -483,21 +502,21 @@
                     explanation: "De Eerste Wereldoorlog begon op 28 juli 1914 toen Oostenrijk-Hongarije de oorlog verklaarde aan Servië."
                 },
                 {
-                    question: "Wat waren de Geallieerden in WOI?",
+                    question: "Wie waren de Centralen in WOI?",
                     options: [
-                        "Duitsland, Oostenrijk-Hongarije, Italië",
-                        "Rusland, Frankrijk, Verenigd Koninkrijk, Verenigde Staten",
+                        "Duitsland, Oostenrijk-Hongarije en Italië",
+                        "Rusland, Frankrijk, Verenigd Koninkrijk",
                         "Nederland, België, Zwitserland",
                         "Japan, China, Thailand"
                     ],
-                    correct: 1,
-                    explanation: "De Geallieerden bestonden uit Rusland, Frankrijk, het Verenigd Koninkrijk en later ook de Verenigde Staten."
+                    correct: 0,
+                    explanation: "De Centralen bestonden uit Duitsland, Oostenrijk-Hongarije en Italië."
                 },
                 {
                     question: "Wanneer viel Duitsland Nederland binnen in WOII?",
                     options: ["10 mei 1940", "14 mei 1940", "15 mei 1940", "5 mei 1945"],
                     correct: 0,
-                    explanation: "Op 10 mei 1940 viel Duitsland Nederland binnen, wat het begin was van de Duitse bezetting."
+                    explanation: "Op 10 mei 1940 viel Duitsland Nederland binnen."
                 },
                 {
                     question: "Wat was de aanleiding voor WOI?",
@@ -508,81 +527,63 @@
                         "De Russische Revolutie"
                     ],
                     correct: 0,
-                    explanation: "De moord op aartshertog Frans Ferdinand in Sarajevo was de directe aanleiding voor het uitbreken van WOI."
+                    explanation: "De moord op Frans Ferdinand in Sarajevo was de directe aanleiding voor het uitbreken van WOI."
                 },
                 {
-                    question: "Hoeveel jaar duurde de Eerste Wereldoorlog?",
-                    options: ["3 jaar", "4 jaar", "5 jaar", "6 jaar"],
-                    correct: 1,
-                    explanation: "WOI duurde 4 jaar, van 28 juli 1914 tot 11 november 1918."
-                },
-                {
-                    question: "Wat was het Verdrag van Versailles?",
+                    question: "Wat waren de 5 redenen voor het ontstaan van WOI?",
                     options: [
-                        "Een vredesverdrag dat een einde maakte aan WOI",
-                        "Een handelsverdrag tussen Frankrijk en Duitsland",
-                        "Een militaire alliantie tussen Europese landen",
-                        "Een neutraliteitsverdrag voor Nederland"
+                        "Wapenwedloop, Nationalisme, Modern Imperialisme, Bondgenoten, Militarisme",
+                        "Economie, Politiek, Religie, Cultuur, Taal",
+                        "Handel, Transport, Communicatie, Industrie, Landbouw",
+                        "Kolonies, Grenzen, Talen, Culturen, Religies"
                     ],
                     correct: 0,
-                    explanation: "Het Verdrag van Versailles was het vredesverdrag dat in 1919 een einde maakte aan WOI."
+                    explanation: "De 5 redenen waren: Wapenwedloop, Nationalisme, Modern Imperialisme, Bondgenoten en Militarisme."
                 },
                 {
-                    question: "Wat gebeurde er op 14 mei 1940 in Rotterdam?",
+                    question: "Wie waren de bondgenoten van Hitler in WOII?",
                     options: [
-                        "Het bombardement op Rotterdam",
-                        "De bevrijding van Rotterdam",
-                        "De eerste razzia",
-                        "De capitulatie van Nederland"
+                        "Italië en Japan",
+                        "Frankrijk en Engeland",
+                        "Amerika en Rusland",
+                        "Nederland en België"
                     ],
                     correct: 0,
-                    explanation: "Op 14 mei 1940 werd Rotterdam gebombardeerd door de Duitse Luftwaffe, wat leidde tot de Nederlandse overgave."
+                    explanation: "De bondgenoten van Hitler waren Italië en Japan."
                 },
                 {
-                    question: "Wat waren de gevolgen van het Verdrag van Versailles voor Duitsland?",
+                    question: "Wie waren de Geallieerden in WOII?",
                     options: [
-                        "Alleen herstelbetalingen",
-                        "Alleen territoriale verliezen",
-                        "Alleen militaire beperkingen",
-                        "Zowel herstelbetalingen, territoriale verliezen als militaire beperkingen"
+                        "Amerika, Engeland, Frankrijk en Rusland",
+                        "Duitsland, Italië en Japan",
+                        "Nederland, België en Luxemburg",
+                        "Spanje, Portugal en Zweden"
                     ],
-                    correct: 3,
-                    explanation: "Duitsland moest herstelbetalingen doen, 10% van het grondgebied afstaan, het leger verkleinen tot 100.000 man, en mocht geen luchtmacht of grote oorlogsschepen meer hebben."
+                    correct: 0,
+                    explanation: "De Geallieerden in WOII waren Amerika, Engeland, Frankrijk en Rusland."
                 },
                 {
                     question: "Welke stappen gebruikten de Nazi's in de Holocaust?",
                     options: [
                         "Alleen deportatie naar kampen",
-                        "Discriminatie, buitensluiting, aparte wijken, deportatie, vermoording",
+                        "Gediscrimineerd, Buitengesloten, In aparte wijken gezet, Gedeporteerd naar concentratiekampen, Vermoord",
                         "Alleen discriminatie en buitensluiting",
                         "Direct vermoording zonder tussenstappen"
                     ],
                     correct: 1,
-                    explanation: "De Joden werden systematisch vervolgd: eerst gediscrimineerd, dan buitengesloten, in aparte wijken gezet, gedeporteerd naar kampen, en uiteindelijk vermoord."
+                    explanation: "De stappen waren: Gediscrimineerd, Buitengesloten, In aparte wijken gezet, Gedeporteerd naar concentratiekampen, en uiteindelijk Vermoord."
                 },
                 {
-                    question: "Hoeveel soorten concentratiekampen waren er in WOII?",
+                    question: "Welke soorten kampen waren er in WOII?",
                     options: [
-                        "2 soorten: werk- en vernietigingskampen",
-                        "3 soorten: doorgang, werk en vernietiging",
-                        "4 soorten: doorgang, internatie, werk en vernietiging",
-                        "5 soorten: doorgang, internatie, werk, straf en vernietiging"
+                        "Alleen vernietigingskampen",
+                        "Werk- en vernietigingskampen",
+                        "Doorgangskamp, Werkkamp, Concentratiekamp en Vernietigingskamp",
+                        "Alleen concentratiekampen"
                     ],
                     correct: 2,
-                    explanation: "Er waren 4 soorten kampen: doorgangskampen, internatiekampen, werkkampen en vernietigingskampen."
+                    explanation: "Er waren verschillende soorten kampen: Doorgangskamp, Werkkamp, Concentratiekamp en Vernietigingskamp."
                 }
-            ],
-            matching: [
-                { term: "Militarisme", definition: "Het leger heeft een superbelangrijke plek in de samenleving" },
-                { term: "Nationalisme", definition: "Liefde voor eigen land, met vlag en volkslied" },
-                { term: "Imperialisme", definition: "Landen stichten kolonies in andere landen" },
-                { term: "Holocaust", definition: "Massamoord op de Europese Joden in WOII" },
-                { term: "NSB", definition: "Nederlandse partij die Hitler steunde" },
-                { term: "Loopgravenoorlog", definition: "Vechten vanuit diepe geulen in de grond" },
-                { term: "Propaganda", definition: "Het beïnvloeden van mensen met gerichte informatie" },
-                { term: "Concentratiekamp", definition: "Kamp waar mensen onder dwang werden vastgehouden" },
-                { term: "Wapenstilstand", definition: "Stoppen met vechten, gebeurde op 11-11-1918" },
-                { term: "Vernietigingskamp", definition: "Kamp waar mensen werden gedood/vergast" }
             ]
         };
 
