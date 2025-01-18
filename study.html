@@ -673,13 +673,122 @@
                 // Create term element
                 const termDiv = document.createElement('div');
                 termDiv.className = 'p-3 bg-gray-700/50 rounded draggable';
-                termDiv.setAttribute('draggable', 'true');
                 termDiv.setAttribute('data-term', item.term);
                 termDiv.innerHTML = `<span class="font-medium">${item.term}</span>`;
                 
-                // Add drag events
-                termDiv.addEventListener('dragstart', handleDragStart);
-                termDiv.addEventListener('dragend', handleDragEnd);
+                // Add touch events for mobile dragging
+                let isDragging = false;
+                let startX, startY, initialX, initialY;
+                let xOffset = 0, yOffset = 0;
+                let activeDropZone = null;
+                let clonedElement = null;
+
+                termDiv.addEventListener('touchstart', function(e) {
+                    if (e.target.closest('.matched-term')) return;
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    startX = touch.clientX - xOffset;
+                    startY = touch.clientY - yOffset;
+                    
+                    if (e.target === termDiv) {
+                        isDragging = true;
+                        
+                        // Create clone for dragging
+                        clonedElement = termDiv.cloneNode(true);
+                        clonedElement.style.position = 'fixed';
+                        clonedElement.style.zIndex = '1000';
+                        clonedElement.style.opacity = '0.9';
+                        clonedElement.style.pointerEvents = 'none';
+                        clonedElement.style.width = `${termDiv.offsetWidth}px`;
+                        document.body.appendChild(clonedElement);
+                        
+                        // Set initial position
+                        const rect = termDiv.getBoundingClientRect();
+                        initialX = rect.left;
+                        initialY = rect.top;
+                        setTranslate(initialX, initialY, clonedElement);
+                        
+                        termDiv.style.opacity = '0.4';
+                    }
+                }, { passive: false });
+
+                termDiv.addEventListener('touchmove', function(e) {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    
+                    const touch = e.touches[0];
+                    const currentX = touch.clientX - startX;
+                    const currentY = touch.clientY - startY;
+                    
+                    xOffset = currentX;
+                    yOffset = currentY;
+                    
+                    setTranslate(initialX + currentX, initialY + currentY, clonedElement);
+                    
+                    // Find droppable under the touch point
+                    const dropZones = document.elementsFromPoint(touch.clientX, touch.clientY)
+                        .find(el => el.classList.contains('droppable'));
+                    
+                    // Remove highlight from previous dropzone
+                    if (activeDropZone && activeDropZone !== dropZones) {
+                        activeDropZone.classList.remove('drag-over');
+                    }
+                    
+                    // Highlight new dropzone
+                    if (dropZones) {
+                        dropZones.classList.add('drag-over');
+                        activeDropZone = dropZones;
+                    } else {
+                        activeDropZone = null;
+                    }
+                }, { passive: false });
+
+                termDiv.addEventListener('touchend', function(e) {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    
+                    // Remove clone
+                    if (clonedElement) {
+                        clonedElement.remove();
+                        clonedElement = null;
+                    }
+                    
+                    termDiv.style.opacity = '1';
+                    
+                    // Handle drop
+                    if (activeDropZone) {
+                        const existingTerm = activeDropZone.querySelector('.draggable');
+                        if (existingTerm) {
+                            termsContainer.appendChild(existingTerm);
+                        }
+                        activeDropZone.querySelector('.matched-term').appendChild(termDiv);
+                        activeDropZone.classList.remove('drag-over');
+                        
+                        // Move filled definitions to bottom
+                        const dropZones = Array.from(definitionsContainer.children);
+                        const filled = dropZones.filter(zone => zone.querySelector('.draggable'));
+                        const empty = dropZones.filter(zone => !zone.querySelector('.draggable'));
+                        
+                        empty.forEach(zone => {
+                            zone.style.order = '0';
+                            zone.style.opacity = '1';
+                            zone.style.transform = 'translateY(0)';
+                        });
+                        
+                        filled.forEach(zone => {
+                            zone.style.order = '1';
+                            zone.style.transition = 'all 0.3s ease';
+                            zone.style.opacity = '0.8';
+                            zone.style.transform = 'translateY(10px)';
+                        });
+                    }
+                    
+                    // Reset variables
+                    xOffset = 0;
+                    yOffset = 0;
+                    activeDropZone = null;
+                });
+
                 termsContainer.appendChild(termDiv);
 
                 // Create definition drop zone
@@ -693,82 +802,13 @@
                     <div class="matched-term"></div>
                 `;
                 
-                // Add drop events
-                defDiv.addEventListener('dragover', handleDragOver);
-                defDiv.addEventListener('dragenter', handleDragEnter);
-                defDiv.addEventListener('dragleave', handleDragLeave);
-                defDiv.addEventListener('drop', handleDrop);
                 definitionsContainer.appendChild(defDiv);
             });
         }
 
-        // Drag and Drop handlers
-        function handleDragStart(e) {
-            e.target.classList.add('opacity-50');
-            e.dataTransfer.setData('text/plain', e.target.getAttribute('data-term'));
-        }
-
-        function handleDragEnd(e) {
-            e.target.classList.remove('opacity-50');
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-        }
-
-        function handleDragEnter(e) {
-            e.preventDefault();
-            const dropZone = e.target.closest('.droppable');
-            if (dropZone) {
-                dropZone.classList.add('drag-over');
-            }
-        }
-
-        function handleDragLeave(e) {
-            const dropZone = e.target.closest('.droppable');
-            if (dropZone) {
-                dropZone.classList.remove('drag-over');
-            }
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            const dropZone = e.target.closest('.droppable');
-            if (!dropZone) return;
-
-            dropZone.classList.remove('drag-over');
-            const term = e.dataTransfer.getData('text/plain');
-            const termElement = document.querySelector(`[data-term="${term}"]`);
-            
-            // If there's already a term here, return it to the terms container
-            const existingTerm = dropZone.querySelector('.draggable');
-            if (existingTerm) {
-                document.getElementById('terms-container').appendChild(existingTerm);
-            }
-
-            // Move the dragged term to the drop zone
-            dropZone.querySelector('.matched-term').appendChild(termElement);
-
-            // Move filled definitions to bottom
-            const definitionsContainer = document.getElementById('definitions-container');
-            const dropZones = Array.from(definitionsContainer.children);
-            const filled = dropZones.filter(zone => zone.querySelector('.draggable'));
-            const empty = dropZones.filter(zone => !zone.querySelector('.draggable'));
-            
-            // Reorder with animation
-            empty.forEach(zone => {
-                zone.style.order = '0';
-                zone.style.opacity = '1';
-                zone.style.transform = 'translateY(0)';
-            });
-            
-            filled.forEach((zone, index) => {
-                zone.style.order = '1';
-                // Add a smooth transition
-                zone.style.transition = 'all 0.5s ease';
-                zone.style.opacity = '0.8';
-                zone.style.transform = 'translateY(10px)';
-            });
+        // Helper function to set translate3d
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
         }
 
         // Check matching answers
