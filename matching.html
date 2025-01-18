@@ -14,34 +14,52 @@
         h1, h2, h3, h4, h5, h6, button {
             font-family: 'OpenDyslexic', sans-serif;
         }
-        .matched-pair {
-            border: none;
-            background-color: rgba(16, 185, 129, 0.2);
+        #definitions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .droppable {
+            min-height: 60px;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            padding: 0.75rem;
+            line-height: 1.2;
+            transition: all 0.2s ease;
             position: relative;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
         }
-        .matched-pair::after {
-            content: '✓';
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            color: #10B981;
-            font-size: 1.5rem;
-            font-weight: bold;
+
+        .droppable.drag-over {
+            border-color: #6366F1;
+            background-color: rgba(99, 102, 241, 0.2);
+            transform: scale(1.01);
         }
-        .wrong-pair {
-            border: none;
-            background-color: rgba(239, 68, 68, 0.2);
-            position: relative;
+
+        .droppable .definition-text {
+            margin-bottom: 0.25rem;
         }
-        .wrong-pair::after {
-            content: '✗';
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            color: #EF4444;
-            font-size: 1.5rem;
-            font-weight: bold;
+
+        .droppable .matched-term {
+            min-height: 2rem;
         }
+
+        #terms-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 0.75rem;
+            background: rgba(26, 31, 45, 0.95);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            position: sticky;
+            top: 80px;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            max-width: 100%;
+            margin: 0 0.5rem 1.5rem 0.5rem;
+        }
+
         .draggable {
             cursor: grab;
             user-select: none;
@@ -65,6 +83,7 @@
             word-break: break-word;
             hyphens: auto;
         }
+
         .draggable::after {
             content: '☰';
             position: absolute;
@@ -75,27 +94,55 @@
             font-size: 1.1rem;
             pointer-events: none;
         }
+
         .draggable:active {
             cursor: grabbing;
             transform: scale(1.02);
             background: rgba(255, 255, 255, 0.1);
         }
-        .droppable {
-            min-height: 60px;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            padding: 0.75rem;
-            line-height: 1.2;
-            transition: all 0.2s ease;
+
+        .matched-pair {
+            border: none;
+            background-color: rgba(16, 185, 129, 0.2);
             position: relative;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0.75rem;
         }
-        .droppable.drag-over {
-            border-color: #6366F1;
-            background-color: rgba(99, 102, 241, 0.2);
-            transform: scale(1.01);
+
+        .matched-pair::after {
+            content: '✓';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: #10B981;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
+
+        .wrong-pair {
+            border: none;
+            background-color: rgba(239, 68, 68, 0.2);
+            position: relative;
+        }
+
+        .wrong-pair::after {
+            content: '✗';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            color: #EF4444;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .matched-pair .draggable {
+            background-color: rgba(16, 185, 129, 0.3);
+            border: 2px solid #10B981;
+        }
+
+        .wrong-pair .draggable {
+            background-color: rgba(239, 68, 68, 0.3);
+            border: 2px solid #EF4444;
+        }
+
         @media (max-width: 768px) {
             .draggable, .droppable {
                 font-size: 0.95rem;
@@ -118,6 +165,87 @@
                 font-size: 0.9rem;
                 line-height: 1.2;
             }
+            .draggable::after {
+                right: 0.5rem;
+                font-size: 1rem;
+            }
+            #definitions-container {
+                margin-top: 1rem;
+            }
+            .droppable {
+                min-height: 44px;
+                padding: 0.625rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        .filter-btn.selected {
+            background-color: rgb(37 99 235);
+            transform: scale(1.05);
+            font-weight: bold;
+        }
+
+        .filter-btn:not(.selected) {
+            opacity: 0.7;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .hamburger-line {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: white;
+            transition: all 0.3s ease-in-out;
+        }
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-menu {
+                display: none;
+                width: 100%;
+            }
+            .nav-menu.active {
+                display: block;
+            }
+            .hamburger.active .hamburger-line:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .hamburger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .hamburger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+        .study-dropdown {
+            position: relative;
+        }
+        .study-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(31, 41, 55, 0.95);
+            min-width: 200px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .study-dropdown-content.show {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .study-dropdown-content {
+                position: static;
+                min-width: 100%;
+                margin-top: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -135,13 +263,19 @@
                 </div>
                 <div class="nav-menu md:flex flex-col md:flex-row justify-between items-center gap-2 w-full">
                     <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <a href="index.html" class="text-white/80 hover:text-white text-center px-4 py-2">Home</a>
                         <a href="ww1.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOI</a>
                         <a href="ww2.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOII</a>
-                    </div>
-                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
-                        <a href="flashcards.html" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Flashcards</a>
-                        <a href="quiz.html" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Quiz</a>
-                        <a href="matching.html" class="text-white bg-blue-600 px-4 py-2 rounded">Matching</a>
+                        <div class="study-dropdown">
+                            <button onclick="toggleStudyMenu()" class="text-white bg-blue-600 px-4 py-2 rounded w-full md:w-auto text-center">
+                                Oefenen ▼
+                            </button>
+                            <div class="study-dropdown-content">
+                                <a href="flashcards.html" class="block text-white/80 hover:text-white hover:bg-gray-700/50 px-4 py-2">Flashcards</a>
+                                <a href="quiz.html" class="block text-white/80 hover:text-white hover:bg-gray-700/50 px-4 py-2">Quiz</a>
+                                <a href="matching.html" class="block text-white bg-blue-600/50 px-4 py-2">Matching</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,27 +289,44 @@
             
             <!-- Filter buttons -->
             <div class="mb-8 flex flex-col sm:flex-row justify-center gap-2 max-w-xs mx-auto">
-                <button onclick="filterPairs('all')" class="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium">Alle</button>
-                <button onclick="filterPairs('ww1')" class="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium">WOI</button>
-                <button onclick="filterPairs('ww2')" class="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium">WOII</button>
+                <button onclick="filterPairs('all')" class="filter-btn w-full px-6 py-3 bg-blue-600/50 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium">Alle</button>
+                <button onclick="filterPairs('ww1')" class="filter-btn w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium selected">WOI</button>
+                <button onclick="filterPairs('ww2')" class="filter-btn w-full px-6 py-3 bg-blue-600/50 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium">WOII</button>
             </div>
 
             <!-- Game container -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Terms container -->
-                <div id="terms-container" class="bg-gray-800/50 p-4 rounded-lg">
-                    <!-- Terms will be inserted here by JavaScript -->
+                <div class="bg-gray-800/50 p-4 rounded-lg">
+                    <div id="terms-container" class="grid grid-cols-2 gap-2">
+                        <!-- Terms will be inserted here by JavaScript -->
+                    </div>
                 </div>
 
                 <!-- Definitions container -->
-                <div id="definitions-container" class="space-y-4">
-                    <!-- Definitions will be inserted here by JavaScript -->
+                <div class="bg-gray-800/50 p-4 rounded-lg">
+                    <div id="definitions-container">
+                        <!-- Definitions will be inserted here by JavaScript -->
+                    </div>
                 </div>
             </div>
 
             <!-- Score display -->
             <div class="mt-8 text-center">
                 <p class="text-xl">Score: <span id="score">0</span> / <span id="total-pairs">0</span></p>
+            </div>
+
+            <!-- Control buttons -->
+            <div class="mt-4 md:mt-8 text-center space-x-2 md:space-x-4">
+                <button onclick="checkMatches()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-6 py-2 rounded-lg">
+                    Check Antwoorden
+                </button>
+                <button onclick="resetMatching()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 md:px-6 py-2 rounded-lg">
+                    Reset
+                </button>
+                <button onclick="initializeMatching()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 md:px-6 py-2 rounded-lg">
+                    Shuffle
+                </button>
             </div>
         </section>
     </main>
@@ -184,16 +335,37 @@
         // Study content
         const studyContent = {
             matchingPairs: [
-                { term: "Militarisme", definition: "Het leger heeft een superbelangrijke plek in de samenleving", category: "ww1" },
-                { term: "Nationalisme", definition: "Liefde voor eigen land met eigen vlag, volkslied en cultuur", category: "ww1" },
-                { term: "Imperialisme", definition: "Landen stichten kolonies in andere landen voor meer macht", category: "ww1" },
-                { term: "Wapenwedloop", definition: "Wedstrijd tussen landen voor de beste en meeste wapens", category: "ww1" },
-                { term: "Antisemitisme", definition: "Jodenhaat en discriminatie van de Joden", category: "ww2" },
-                { term: "Holocaust", definition: "Massamoord op de Europese Joden in WOII", category: "ww2" },
-                { term: "NSB", definition: "Nederlandse politieke partij die Hitler steunde", category: "ww2" },
-                { term: "NSDAP", definition: "De politieke partij van Hitler", category: "ww2" },
-                { term: "Loopgraven", definition: "Tunnels waarin soldaten leefden en beschutting zochten", category: "ww1" },
-                { term: "Concentratiekamp", definition: "Kamp waar mensen onder dwang bij elkaar werden gebracht", category: "ww2" }
+                // WW1 Pairs
+                { term: "Bondgenootschappen", definition: "Landen die elkaar steunen en samen een ''team'' vormen. Een voordeel is dat je er nooit alleen voor staat, een nadeel is dat als 1 van de bondgenoten een oorlog start, je erin mee moet.", category: "ww1" },
+                { term: "De Geallieerden (WOI)", definition: "Rusland, Frankrijk, Engeland/het Verenigd koninkrijk en later de Verenigde Staten.", category: "ww1" },
+                { term: "De Centralen", definition: "Oostenrijk-Hongarije, Duitsland en Italië", category: "ww1" },
+                { term: "Militarisme", definition: "Het leger heeft een superbelangrijke plek in de samenleving. Iedereen kijkt naar het leger op, wil erbij horen en er is heel veel interesse in wapens en alles wat met het leger te maken heeft.", category: "ww1" },
+                { term: "Nationalisme", definition: "Liefde voor eigen land. Kenmerken zijn: een vlag, een volkslied, de cultuur van het land, de taal die ze er spreken.", category: "ww1" },
+                { term: "Imperialisme", definition: "Landen stichten kolonies in andere landen. Hoe meer kolonies, hoe machtiger een land is.", category: "ww1" },
+                { term: "Wapenwedloop", definition: "Een soort wedstrijd tussen landen, wie heeft de beste, de meeste en de gevaarlijkste wapens. Dit zorgde dat landen elkaar gingen wantrouwen, want waarom maak jij opeens zoveel wapens?", category: "ww1" },
+                { term: "Herstelbetalingen", definition: "Duitsland moest de schade van de oorlog terugbetalen aan landen zoals Frankrijk en België.", category: "ww1" },
+                { term: "Loopgraven", definition: "Lange tunnels die de Duitsers en de Fransen hebben gegraven in de tijd van de Eerste Wereldoorlog. Hierin leefde de soldaten en zochten ze naar beschutting.", category: "ww1" },
+                { term: "Neutraal", definition: "Nederland wilde neutraal blijven tijdens de oorlog, dus ze hoorden niet bij de Centralen en ook niet bij de Geallieerden.", category: "ww1" },
+                { term: "Propaganda", definition: "Reclame voor denkbeelden. Gemaakt en gecontroleerd door eigen regering", category: "ww1" },
+                { term: "5 redenen voor WOI", definition: "Wapenwedloop, Nationalisme, Modern Imperialisme, Bondgenoten, Militairisme", category: "ww1" },
+                { term: "Wapenstilstand", definition: "Op 11-11-1918 om 11 uur werd de wapenstilstand getekend. Duitsland gaf zich over en dit betekende het einde van de Eerste Wereldoorlog.", category: "ww1" },
+                { term: "Wereldoorlog", definition: "Een oorlog waar meerder landen over de hele wereld aan mee doen.", category: "ww1" },
+                { term: "Start WOI", definition: "Op 28 juni 1914 vermoord de Servische nationalist Gavrillo Princip de kroonprins van Oostenrijk-Hongarije Franz Ferdinand. Op 28 juli 1914 viel Oostenrijk-Hongarije Servië binnen.", category: "ww1" },
+                { term: "Einde WOI", definition: "Op 11-11-1918 om 11 uur werd de wapenstilstand getekend. Duitsland gaf zich over en dit betekende het einde van de Eerste Wereldoorlog.", category: "ww1" },
+                
+                // WW2 Pairs
+                { term: "Antisemitisme", definition: "Jodenhaat. Discriminatie van de Joden.", category: "ww2" },
+                { term: "Duitse bezetting", definition: "De landen die bezet werden door Hitler in de Tweede Wereldoorlog.", category: "ww2" },
+                { term: "Geallieerden (WOII)", definition: "Het Verenigd Koninkrijk, de Verenigde staten, Rusland en Frankrijk.", category: "ww2" },
+                { term: "Bondgenoten van Hitler", definition: "Italië en Japan.", category: "ww2" },
+                { term: "Concentratiekamp", definition: "Een kamp waar mensen onder dwang van het leger bij elkaar gebracht werden.", category: "ww2" },
+                { term: "Soorten kampen", definition: "1. Een doorgangskamp 2. Een interneringskamp (internatiekamp) 3. Een werkkamp (hier werden mensen naartoe gestuurd om, onder zeer slechte omstandigheden, te werken) 4. Een vernietigingskamp (hier kwamen mensen, vooral Joden, heen om gedood/vergast te worden)", category: "ww2" },
+                { term: "Holocaust", definition: "Massamoord, in de Tweede Wereldoorlog hebben we het dan over de massamoord op de Europese Joden.", category: "ww2" },
+                { term: "NSB", definition: "De Nederlandse politieke partij die het eens was met Hitler en de bezetters steunde.", category: "ww2" },
+                { term: "NSDAP", definition: "De politieke partij van Hitler.", category: "ww2" },
+                { term: "Start WOII voor Nederland", definition: "10 mei 1940: inval Duitsland Nederland. 14 mei 1940: bombardement Rotterdam (heel Rotterdam plat in 13 minuten). 15 mei 1940: Nederland geeft zich over.", category: "ww2" },
+                { term: "Waarom de Nazi's Joden wilden vermoorden", definition: "Volgens Hitler waren de Joden Untermenschen (mensen die niks waard waren). Volgens Hitler was het Germaanse volk, de Ariërs (blond haar, blauwe ogen), het sterkste ras, alleen dat ras mocht in zijn Rijk wonen. De rest moest weg/gezuiverd worden.", category: "ww2" },
+                { term: "Jodenvervolging stappen", definition: "1. Gediscrimineerd 2. Buitengesloten 3. In aparte wijken gezet 4. Gedeporteerd naar concentratiekampen 5. Vermoord", category: "ww2" }
             ]
         };
 
@@ -222,150 +394,370 @@
             definitionsContainer.innerHTML = '';
 
             // Shuffle arrays
-            const shuffledTerms = [...currentPairs].sort(() => Math.random() - 0.5);
-            const shuffledDefs = [...currentPairs].sort(() => Math.random() - 0.5);
+            const shuffledDefinitions = [...currentPairs].sort(() => Math.random() - 0.5);
 
-            // Create terms
-            shuffledTerms.forEach((pair, index) => {
-                const term = document.createElement('div');
-                term.className = 'draggable mb-4';
-                term.draggable = true;
-                term.textContent = pair.term;
-                term.dataset.term = pair.term;
+            // Create elements
+            currentPairs.forEach((item, index) => {
+                // Create term element
+                const termDiv = document.createElement('div');
+                termDiv.className = 'p-3 bg-gray-700/50 rounded draggable';
+                termDiv.setAttribute('data-term', item.term);
+                termDiv.innerHTML = `<span class="term-text">${item.term}</span>`;
                 
-                term.addEventListener('dragstart', handleDragStart);
-                term.addEventListener('dragend', handleDragEnd);
-                term.addEventListener('touchstart', handleTouchStart);
-                term.addEventListener('touchmove', handleTouchMove);
-                term.addEventListener('touchend', handleTouchEnd);
-                
-                termsContainer.appendChild(term);
-            });
+                // Add mouse drag events
+                termDiv.draggable = true;
+                termDiv.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', item.term);
+                    this.classList.add('dragging');
+                    this.style.opacity = '0.4';
+                    this.style.transform = 'scale(0.95)';
+                });
 
-            // Create definitions
-            shuffledDefs.forEach((pair, index) => {
-                const def = document.createElement('div');
-                def.className = 'droppable';
-                def.dataset.definition = pair.definition;
-                def.dataset.correctTerm = pair.term;
-                
-                const defText = document.createElement('div');
-                defText.className = 'definition-text';
-                defText.textContent = pair.definition;
-                
-                def.appendChild(defText);
-                
-                def.addEventListener('dragover', handleDragOver);
-                def.addEventListener('drop', handleDrop);
-                
-                definitionsContainer.appendChild(def);
-            });
-        }
+                termDiv.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    this.style.opacity = '1';
+                    this.style.transform = 'scale(1)';
+                });
 
-        // Drag and drop handlers
-        function handleDragStart(e) {
-            e.target.classList.add('dragging');
-            e.dataTransfer.setData('text/plain', e.target.dataset.term);
-        }
+                // Add touch events for mobile dragging
+                let isDragging = false;
+                let startX, startY, initialX, initialY;
+                let xOffset = 0, yOffset = 0;
+                let activeDropZone = null;
+                let clonedElement = null;
 
-        function handleDragEnd(e) {
-            e.target.classList.remove('dragging');
-        }
+                termDiv.addEventListener('touchstart', function(e) {
+                    if (e.target.closest('.matched-term')) return;
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    startX = touch.clientX - xOffset;
+                    startY = touch.clientY - yOffset;
+                    
+                    isDragging = true;
+                    
+                    // Create clone for dragging
+                    clonedElement = termDiv.cloneNode(true);
+                    clonedElement.style.position = 'fixed';
+                    clonedElement.style.zIndex = '1000';
+                    clonedElement.style.opacity = '0.9';
+                    clonedElement.style.pointerEvents = 'none';
+                    clonedElement.style.width = `${termDiv.offsetWidth}px`;
+                    clonedElement.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                    document.body.appendChild(clonedElement);
+                    
+                    // Set initial position
+                    const rect = termDiv.getBoundingClientRect();
+                    initialX = rect.left;
+                    initialY = rect.top;
+                    setTranslate(initialX, initialY, clonedElement);
+                    
+                    // Add visual feedback
+                    termDiv.style.opacity = '0.4';
+                    termDiv.style.transform = 'scale(0.95)';
+                }, { passive: false });
 
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.currentTarget.classList.add('drag-over');
-        }
-
-        function handleDrop(e) {
-            e.preventDefault();
-            const term = e.dataTransfer.getData('text/plain');
-            const droppable = e.currentTarget;
-            droppable.classList.remove('drag-over');
-
-            if (term === droppable.dataset.correctTerm) {
-                droppable.classList.add('matched-pair');
-                document.querySelector(`[data-term="${term}"]`).style.opacity = '0.5';
-                score++;
-                document.getElementById('score').textContent = score;
-            } else {
-                droppable.classList.add('wrong-pair');
-                setTimeout(() => {
-                    droppable.classList.remove('wrong-pair');
-                }, 1000);
-            }
-        }
-
-        // Touch handlers for mobile
-        let touchTerm = null;
-        let touchStartY = 0;
-
-        function handleTouchStart(e) {
-            touchTerm = e.target;
-            touchStartY = e.touches[0].clientY;
-            e.target.classList.add('dragging');
-        }
-
-        function handleTouchMove(e) {
-            if (!touchTerm) return;
-            e.preventDefault();
-
-            const touch = e.touches[0];
-            touchTerm.style.position = 'fixed';
-            touchTerm.style.left = touch.clientX - touchTerm.offsetWidth / 2 + 'px';
-            touchTerm.style.top = touch.clientY - touchTerm.offsetHeight / 2 + 'px';
-
-            // Find droppable under touch point
-            const droppables = document.querySelectorAll('.droppable');
-            droppables.forEach(droppable => {
-                const rect = droppable.getBoundingClientRect();
-                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
-                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
-                    droppable.classList.add('drag-over');
-                } else {
-                    droppable.classList.remove('drag-over');
-                }
-            });
-        }
-
-        function handleTouchEnd(e) {
-            if (!touchTerm) return;
-
-            const touch = e.changedTouches[0];
-            const droppables = document.querySelectorAll('.droppable');
-            let dropped = false;
-
-            droppables.forEach(droppable => {
-                const rect = droppable.getBoundingClientRect();
-                if (touch.clientX >= rect.left && touch.clientX <= rect.right &&
-                    touch.clientY >= rect.top && touch.clientY <= rect.bottom) {
-                    if (touchTerm.dataset.term === droppable.dataset.correctTerm) {
-                        droppable.classList.add('matched-pair');
-                        touchTerm.style.opacity = '0.5';
-                        score++;
-                        document.getElementById('score').textContent = score;
-                    } else {
-                        droppable.classList.add('wrong-pair');
-                        setTimeout(() => {
-                            droppable.classList.remove('wrong-pair');
-                        }, 1000);
+                termDiv.addEventListener('touchmove', function(e) {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    
+                    const touch = e.touches[0];
+                    const currentX = touch.clientX - startX;
+                    const currentY = touch.clientY - startY;
+                    
+                    xOffset = currentX;
+                    yOffset = currentY;
+                    
+                    setTranslate(initialX + currentX, initialY + currentY, clonedElement);
+                    
+                    // Find droppable under the touch point
+                    const touchX = touch.clientX;
+                    const touchY = touch.clientY;
+                    const dropZones = document.elementsFromPoint(touchX, touchY)
+                        .find(el => el.classList.contains('droppable') || el.closest('.droppable'));
+                    
+                    // Remove highlight from previous dropzone
+                    if (activeDropZone && activeDropZone !== dropZones) {
+                        activeDropZone.classList.remove('drag-over');
                     }
-                    dropped = true;
-                }
-                droppable.classList.remove('drag-over');
-            });
+                    
+                    // Highlight new dropzone
+                    if (dropZones) {
+                        const actualDropZone = dropZones.classList.contains('droppable') ? 
+                            dropZones : dropZones.closest('.droppable');
+                        actualDropZone.classList.add('drag-over');
+                        activeDropZone = actualDropZone;
+                    } else {
+                        activeDropZone = null;
+                    }
+                }, { passive: false });
 
-            touchTerm.style.position = '';
-            touchTerm.style.left = '';
-            touchTerm.style.top = '';
-            touchTerm.classList.remove('dragging');
-            touchTerm = null;
+                termDiv.addEventListener('touchend', function(e) {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    
+                    // Remove clone
+                    if (clonedElement) {
+                        clonedElement.remove();
+                        clonedElement = null;
+                    }
+                    
+                    // Reset original element
+                    termDiv.style.opacity = '1';
+                    termDiv.style.transform = 'scale(1)';
+                    
+                    // Handle drop
+                    if (activeDropZone) {
+                        const existingTerm = activeDropZone.querySelector('.draggable');
+                        if (existingTerm) {
+                            termsContainer.appendChild(existingTerm);
+                            existingTerm.style.transform = 'scale(1)';
+                        }
+                        activeDropZone.querySelector('.matched-term').appendChild(termDiv);
+                        activeDropZone.classList.remove('drag-over');
+                        
+                        // Add drop animation
+                        termDiv.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            termDiv.style.transform = 'scale(1)';
+                        }, 150);
+                        
+                        // Move filled definitions to bottom
+                        const dropZones = Array.from(definitionsContainer.children);
+                        const filled = dropZones.filter(zone => zone.querySelector('.draggable'));
+                        const empty = dropZones.filter(zone => !zone.querySelector('.draggable'));
+                        
+                        empty.forEach(zone => {
+                            zone.style.order = '0';
+                            zone.style.opacity = '1';
+                            zone.style.transform = 'translateY(0)';
+                        });
+                        
+                        filled.forEach(zone => {
+                            zone.style.order = '1';
+                            zone.style.transition = 'all 0.3s ease';
+                            zone.style.opacity = '0.8';
+                            zone.style.transform = 'translateY(10px)';
+                        });
+                    } else {
+                        // Animate back to original position if not dropped
+                        termDiv.style.transition = 'all 0.2s ease';
+                        termDiv.style.transform = 'scale(1)';
+                    }
+                    
+                    // Reset variables
+                    xOffset = 0;
+                    yOffset = 0;
+                    activeDropZone = null;
+                });
+
+                termsContainer.appendChild(termDiv);
+
+                // Create definition drop zone
+                const defDiv = document.createElement('div');
+                defDiv.className = 'droppable';
+                defDiv.setAttribute('data-definition', shuffledDefinitions[index].definition);
+                defDiv.innerHTML = `
+                    <div class="definition-text">${shuffledDefinitions[index].definition}</div>
+                    <div class="matched-term"></div>
+                `;
+
+                // Add drop zone events
+                defDiv.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('drag-over');
+                });
+
+                defDiv.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+
+                defDiv.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+                    const term = e.dataTransfer.getData('text/plain');
+                    const draggedElement = document.querySelector(`[data-term="${term}"]`);
+                    
+                    if (draggedElement) {
+                        const existingTerm = this.querySelector('.draggable');
+                        if (existingTerm) {
+                            termsContainer.appendChild(existingTerm);
+                            existingTerm.style.transform = 'scale(1)';
+                        }
+                        this.querySelector('.matched-term').appendChild(draggedElement);
+                        
+                        // Add drop animation
+                        draggedElement.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            draggedElement.style.transform = 'scale(1)';
+                        }, 150);
+                        
+                        // Move filled definitions to bottom
+                        const dropZones = Array.from(definitionsContainer.children);
+                        const filled = dropZones.filter(zone => zone.querySelector('.draggable'));
+                        const empty = dropZones.filter(zone => !zone.querySelector('.draggable'));
+                        
+                        empty.forEach(zone => {
+                            zone.style.order = '0';
+                            zone.style.opacity = '1';
+                            zone.style.transform = 'translateY(0)';
+                        });
+                        
+                        filled.forEach(zone => {
+                            zone.style.order = '1';
+                            zone.style.transition = 'all 0.3s ease';
+                            zone.style.opacity = '0.8';
+                            zone.style.transform = 'translateY(10px)';
+                        });
+                    }
+                });
+                
+                definitionsContainer.appendChild(defDiv);
+            });
         }
 
-        // Filter pairs
+        // Helper function to set translate3d
+        function setTranslate(xPos, yPos, el) {
+            el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`;
+        }
+
+        // Check matching answers
+        function checkMatches() {
+            let correct = 0;
+            const dropZones = document.querySelectorAll('.droppable');
+            
+            // First remove all previous feedback
+            dropZones.forEach(zone => {
+                zone.classList.remove('matched-pair', 'wrong-pair');
+            });
+            
+            // Add new feedback with animation delay
+            dropZones.forEach((zone, index) => {
+                const termElement = zone.querySelector('[data-term]');
+                if (!termElement) return;
+
+                const term = termElement.getAttribute('data-term');
+                const definition = zone.getAttribute('data-definition');
+                const correctDef = currentPairs.find(item => item.term === term).definition;
+                
+                // Delay the feedback for each item
+                setTimeout(() => {
+                    if (definition === correctDef) {
+                        correct++;
+                        zone.classList.add('matched-pair');
+                        // Add a subtle animation
+                        zone.style.transform = 'scale(1.05)';
+                        setTimeout(() => {
+                            zone.style.transform = 'scale(1)';
+                        }, 300);
+                    } else {
+                        zone.classList.add('wrong-pair');
+                        // Add a subtle shake animation
+                        zone.style.transform = 'translateX(5px)';
+                        setTimeout(() => {
+                            zone.style.transform = 'translateX(-5px)';
+                            setTimeout(() => {
+                                zone.style.transform = 'translateX(0)';
+                            }, 100);
+                        }, 100);
+                    }
+                }, index * 200); // Stagger the animations
+            });
+
+            // Show the score after all animations are complete
+            setTimeout(() => {
+                const message = `Je hebt ${correct} van de ${currentPairs.length} matches correct!`;
+                const scoreDiv = document.createElement('div');
+                scoreDiv.className = 'fixed top-4 right-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+                scoreDiv.textContent = message;
+                document.body.appendChild(scoreDiv);
+                
+                // Remove the score message after 3 seconds
+                setTimeout(() => {
+                    scoreDiv.style.opacity = '0';
+                    setTimeout(() => scoreDiv.remove(), 300);
+                }, 3000);
+            }, dropZones.length * 200 + 500);
+        }
+
+        // Reset matching game
+        function resetMatching() {
+            const termsContainer = document.getElementById('terms-container');
+            const terms = document.querySelectorAll('[data-term]');
+            const dropZones = document.querySelectorAll('.droppable');
+            
+            // Reset all dropzones to original state
+            dropZones.forEach(zone => {
+                zone.style.transform = 'scale(0.95)';
+                zone.style.order = '0';
+                zone.style.opacity = '1';
+                setTimeout(() => {
+                    zone.style.transform = 'scale(1)';
+                    zone.classList.remove('matched-pair', 'wrong-pair', 'drag-over');
+                }, 200);
+            });
+            
+            // Move all terms back with animation
+            terms.forEach((term, index) => {
+                setTimeout(() => {
+                    term.style.opacity = '0';
+                    setTimeout(() => {
+                        termsContainer.appendChild(term);
+                        term.style.opacity = '1';
+                    }, 200);
+                }, index * 100);
+            });
+        }
+
+        // Filter pairs based on category
         function filterPairs(filter) {
+            // Update button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.style.opacity = '0.7';
+            });
+            const selectedBtn = document.querySelector(`.filter-btn[onclick*="${filter}"]`);
+            if (selectedBtn) {
+                selectedBtn.classList.add('selected');
+                selectedBtn.style.opacity = '1';
+            }
+            
             initializeMatching(filter);
         }
+
+        // Initialize when page loads
+        window.onload = function() {
+            filterPairs('ww1');  // Start with WO1 selected
+
+            // Add touch event handlers for better mobile experience
+            document.addEventListener('DOMContentLoaded', function() {
+                // Prevent double-tap zoom on buttons
+                document.querySelectorAll('button').forEach(button => {
+                    button.addEventListener('touchend', function(e) {
+                        e.preventDefault();
+                    });
+                });
+
+                // Improve touch handling for draggable elements
+                document.querySelectorAll('.draggable').forEach(elem => {
+                    elem.addEventListener('touchstart', function(e) {
+                        e.preventDefault();
+                        this.classList.add('dragging');
+                    });
+
+                    elem.addEventListener('touchend', function() {
+                        this.classList.remove('dragging');
+                    });
+                });
+            });
+
+            // Add viewport height fix for mobile browsers
+            function setVH() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            setVH();
+            window.addEventListener('resize', setVH);
+        };
 
         // Toggle menu function for mobile
         function toggleMenu() {
@@ -375,10 +767,23 @@
             navMenu.classList.toggle('active');
         }
 
-        // Initialize everything when page loads
-        window.onload = function() {
-            initializeMatching();
-        };
+        // Toggle study dropdown menu
+        function toggleStudyMenu() {
+            const dropdown = document.querySelector('.study-dropdown-content');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close the dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.study-dropdown button')) {
+                const dropdowns = document.getElementsByClassName('study-dropdown-content');
+                for (let dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
     </script>
 </body>
 </html> 

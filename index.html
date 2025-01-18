@@ -27,9 +27,116 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(31, 41, 55, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 1rem;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .hamburger-line {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: white;
+            transition: all 0.3s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-menu {
+                display: none;
+                width: 100%;
+            }
+            .nav-menu.active {
+                display: block;
+            }
+            .hamburger.active .hamburger-line:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .hamburger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .hamburger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+
+        .study-dropdown {
+            position: relative;
+        }
+
+        .study-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(31, 41, 55, 0.95);
+            min-width: 200px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .study-dropdown-content.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .study-dropdown-content {
+                position: static;
+                min-width: 100%;
+                margin-top: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body class="bg-[#1a1f2d] text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button class="hamburger md:hidden" onclick="toggleMenu()">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+                <div class="nav-menu md:flex flex-col md:flex-row justify-between items-center gap-2 w-full">
+                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <a href="index.html" class="text-white bg-blue-600 px-4 py-2 rounded">Home</a>
+                        <a href="ww1.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOI</a>
+                        <a href="ww2.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOII</a>
+                        <div class="study-dropdown">
+                            <button onclick="toggleStudyMenu()" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded w-full md:w-auto text-center">
+                                Oefenen ▼
+                            </button>
+                            <div class="study-dropdown-content">
+                                <a href="flashcards.html" class="block text-white/80 hover:text-white hover:bg-gray-700/50 px-4 py-2">Flashcards</a>
+                                <a href="quiz.html" class="block text-white/80 hover:text-white hover:bg-gray-700/50 px-4 py-2">Quiz</a>
+                                <a href="matching.html" class="block text-white/80 hover:text-white hover:bg-gray-700/50 px-4 py-2">Matching</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
     <!-- Hero Section -->
     <section class="hero-section px-4">
         <h1 class="text-6xl font-bold mb-6 text-center">WOI & WOII</h1>
@@ -40,7 +147,7 @@
         <!-- Navigation Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <!-- Study Card -->
-            <a href="study.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 cursor-pointer transition-all">
+            <a href="flashcards.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 cursor-pointer transition-all">
                 <div class="text-4xl mb-4">📚</div>
                 <h2 class="text-2xl font-bold mb-3">Leren</h2>
                 <p class="text-gray-300">
@@ -71,17 +178,17 @@
         <div class="mt-24 max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-8">Leer op je eigen manier</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <a href="study.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
+                <a href="flashcards.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
                     <div class="text-3xl mb-4">🎴</div>
                     <h3 class="text-xl font-bold mb-2">Flashcards</h3>
                     <p class="text-gray-300">Leer belangrijke termen en definities</p>
                 </a>
-                <a href="study.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
+                <a href="quiz.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
                     <div class="text-3xl mb-4">❓</div>
                     <h3 class="text-xl font-bold mb-2">Quiz</h3>
                     <p class="text-gray-300">Test je kennis met multiple choice vragen</p>
                 </a>
-                <a href="study.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
+                <a href="matching.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
                     <div class="text-3xl mb-4">🔄</div>
                     <h3 class="text-xl font-bold mb-2">Matching</h3>
                     <p class="text-gray-300">Verbind termen met hun definities</p>
@@ -94,5 +201,33 @@
             <p>Gemaakt voor geschiedenis leerlingen</p>
         </footer>
     </section>
+
+    <script>
+        // Toggle menu function for mobile
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        // Toggle study dropdown menu
+        function toggleStudyMenu() {
+            const dropdown = document.querySelector('.study-dropdown-content');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close the dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.study-dropdown button')) {
+                const dropdowns = document.getElementsByClassName('study-dropdown-content');
+                for (let dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html> 

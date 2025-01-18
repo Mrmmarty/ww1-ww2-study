@@ -1,131 +1,29 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="nl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>De Eerste Wereldoorlog - Leerstof</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'OpenDyslexic', sans-serif !important;
-        }
-
         body {
-            background-color: #1a1f2d;
-            color: #ffffff;
-            line-height: 1.8;
-            letter-spacing: 0.5px;
-            word-spacing: 4px;
+            font-family: 'OpenDyslexic', sans-serif;
+            line-height: 1.6;
         }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: #1a1f2d;
-            padding: 1rem;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        h1, h2, h3, h4, h5, h6, button {
+            font-family: 'OpenDyslexic', sans-serif;
         }
-
-        nav ul {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            list-style: none;
-            flex-wrap: wrap;
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            font-size: 1.1rem;
-            background-color: #2a2f3d;
-        }
-
-        nav a:hover {
-            background-color: #3a3f4d;
-        }
-
-        .hero-section {
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 1rem;
-            padding-top: 60px;
-            background-color: #1a1f2d;
-        }
-
-        .content-section {
-            background: linear-gradient(to bottom, #1a1f2d, #2a2f3d);
-            padding: 2rem;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'OpenDyslexic', sans-serif !important;
-            line-height: 1.4;
-            margin-bottom: 1rem;
-        }
-
-        p, li, span, a {
-            font-family: 'OpenDyslexic', sans-serif !important;
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 1rem;
-        }
-
-        h2 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            margin: 2rem 0 1rem;
-            color: #ffffff;
-        }
-
-        p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            margin-bottom: 1rem;
-        }
-
-        ul, ol {
-            margin-left: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
         .timeline {
             border-left: 4px solid #ffffff;
             margin-left: 1rem;
             padding-left: 2rem;
             position: relative;
         }
-
         .timeline-item {
             margin-bottom: 2rem;
             position: relative;
         }
-
         .timeline-item::before {
             content: '';
             position: absolute;
@@ -136,135 +34,166 @@
             background-color: #ffffff;
             border-radius: 50%;
         }
-
-        .definition {
-            background-color: #2a2f3d;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid #4a4f5d;
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
         }
-
-        .definition h3 {
-            color: #ffffff;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
+        .hamburger-line {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: white;
+            transition: all 0.3s ease-in-out;
         }
-
-        .definition p {
-            font-size: 1.1rem;
-        }
-
-        @media (max-width: 600px) {
-            nav ul {
-                flex-direction: column;
-                align-items: center;
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
             }
-
-            nav a {
+            .nav-menu {
+                display: none;
                 width: 100%;
-                text-align: center;
             }
-
-            .hero-section {
-                padding-top: 180px;
+            .nav-menu.active {
+                display: block;
             }
-
-            .timeline {
-                margin-left: 0;
-                padding-left: 1.5rem;
+            .hamburger.active .hamburger-line:nth-child(2) {
+                opacity: 0;
             }
-
-            .timeline-item::before {
-                left: -2rem;
+            .hamburger.active .hamburger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
             }
-
-            body {
-                font-size: 1.1rem;
+            .hamburger.active .hamburger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
             }
-            
-            .container {
-                padding: 1rem;
+        }
+        .study-dropdown {
+            position: relative;
+        }
+        .study-dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: rgba(31, 41, 55, 0.95);
+            min-width: 200px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .study-dropdown-content.show {
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .study-dropdown-content {
+                position: static;
+                min-width: 100%;
+                margin-top: 0.5rem;
             }
         }
     </style>
 </head>
-<body>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="ww1.html">WOI</a></li>
-            <li><a href="ww2.html">WOII</a></li>
-            <li><a href="study.html">Oefenen</a></li>
-        </ul>
+<body class="bg-[#1a1f2d] text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button class="hamburger md:hidden" onclick="toggleMenu()">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+                <div class="nav-menu md:flex flex-col md:flex-row justify-between items-center gap-2 w-full">
+                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <a href="index.html" class="text-white/80 hover:text-white text-center px-4 py-2">Home</a>
+                        <a href="ww1.html" class="text-white bg-blue-600 px-4 py-2 rounded">WOI</a>
+                        <a href="ww2.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOII</a>
+                        <div class="study-dropdown">
+                            <button onclick="toggleStudyMenu()" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded w-full md:w-auto text-center">
+                                Oefenen ▼
+                            </button>
+                            <div class="study-dropdown-content">
+                                <a href="flashcards.html" class="block text-white/80 hover:text-white hover:bg-gray-700/50 px-4 py-2">Flashcards</a>
+                                <a href="quiz.html" class="block text-white/80 hover:text-white hover:bg-gray-700/50 px-4 py-2">Quiz</a>
+                                <a href="matching.html" class="block text-white/80 hover:text-white hover:bg-gray-700/50 px-4 py-2">Matching</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </nav>
 
-    <div class="hero-section">
-        <h1>De Eerste Wereldoorlog</h1>
-        <p>1914-1918</p>
-    </div>
+    <!-- Main Content -->
+    <main class="pt-20 px-4 min-h-screen">
+        <div class="hero-section text-center py-12">
+            <h1 class="text-4xl font-bold mb-4">De Eerste Wereldoorlog</h1>
+            <p class="text-xl text-gray-300">1914-1918</p>
+        </div>
 
-    <div class="content-section">
-        <div class="container">
-            <section id="timeline">
-                <h2>Tijdlijn</h2>
+        <div class="content-section max-w-4xl mx-auto">
+            <section id="timeline" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6">Tijdlijn</h2>
                 <div class="timeline">
                     <div class="timeline-item">
-                        <h3>28 juni 1914</h3>
+                        <h3 class="text-xl font-bold">28 juni 1914</h3>
                         <p>De Oostenrijkse troonopvolger Frans Ferdinand wordt vermoord in Sarajevo.</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>28 juli 1914</h3>
+                        <h3 class="text-xl font-bold">28 juli 1914</h3>
                         <p>Oostenrijk-Hongarije verklaart de oorlog aan Servië. Het begin van WOI.</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>11 november 1918</h3>
+                        <h3 class="text-xl font-bold">11 november 1918</h3>
                         <p>Wapenstilstand: Duitsland geeft zich over. Einde van WOI.</p>
                     </div>
                     <div class="timeline-item">
-                        <h3>28 juni 1919</h3>
+                        <h3 class="text-xl font-bold">28 juni 1919</h3>
                         <p>Verdrag van Versailles wordt getekend.</p>
                     </div>
                 </div>
             </section>
 
-            <section id="alliances">
-                <h2>Bondgenootschappen</h2>
-                <div class="definition">
-                    <h3>Geallieerden</h3>
+            <section id="alliances" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6">Bondgenootschappen</h2>
+                <div class="bg-gray-800/50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-3">Geallieerden</h3>
                     <p>Frankrijk, Groot-Brittannië, Rusland (tot 1917), Verenigde Staten (vanaf 1917), en andere landen.</p>
                 </div>
-                <div class="definition">
-                    <h3>Centralen</h3>
+                <div class="bg-gray-800/50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-3">Centralen</h3>
                     <p>Duitsland, Oostenrijk-Hongarije, Ottomaanse Rijk, Bulgarije.</p>
                 </div>
             </section>
 
-            <section id="concepts">
-                <h2>Belangrijke Begrippen</h2>
-                <div class="definition">
-                    <h3>Militarisme</h3>
+            <section id="concepts" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6">Belangrijke Begrippen</h2>
+                <div class="bg-gray-800/50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-3">Militarisme</h3>
                     <p>Het leger heeft een superbelangrijke plek in de samenleving. Iedereen kijkt naar het leger op, wil erbij horen en er is heel veel interesse in wapens en alles wat met het leger te maken heeft.</p>
                 </div>
-                <div class="definition">
-                    <h3>Nationalisme</h3>
+                <div class="bg-gray-800/50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-3">Nationalisme</h3>
                     <p>Liefde voor eigen land. Kenmerken zijn: een vlag, een volkslied, de cultuur van het land, de taal die ze er spreken.</p>
                 </div>
-                <div class="definition">
-                    <h3>Imperialisme</h3>
+                <div class="bg-gray-800/50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-3">Imperialisme</h3>
                     <p>Het streven naar een groot rijk door andere gebieden te veroveren en te overheersen.</p>
                 </div>
-                <div class="definition">
-                    <h3>Wapenwedloop</h3>
+                <div class="bg-gray-800/50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-3">Wapenwedloop</h3>
                     <p>Landen proberen elkaar te overtreffen in militaire kracht door steeds meer en betere wapens te maken.</p>
                 </div>
             </section>
 
-            <section id="treaty">
-                <h2>Verdrag van Versailles</h2>
-                <div class="definition">
-                    <h3>Gevolgen voor Duitsland</h3>
-                    <ul>
+            <section id="treaty" class="mb-12">
+                <h2 class="text-3xl font-bold mb-6">Verdrag van Versailles</h2>
+                <div class="bg-gray-800/50 p-6 rounded-lg mb-6">
+                    <h3 class="text-xl font-bold mb-3">Gevolgen voor Duitsland</h3>
+                    <ul class="list-disc pl-6">
                         <li>Moest de schuld van de oorlog op zich nemen</li>
                         <li>Moest grote herstelbetalingen doen</li>
                         <li>Verloor kolonies en gebieden in Europa</li>
@@ -274,6 +203,34 @@
                 </div>
             </section>
         </div>
-    </div>
+    </main>
+
+    <script>
+        // Toggle menu function for mobile
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        // Toggle study dropdown menu
+        function toggleStudyMenu() {
+            const dropdown = document.querySelector('.study-dropdown-content');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close the dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.matches('.study-dropdown button')) {
+                const dropdowns = document.getElementsByClassName('study-dropdown-content');
+                for (let dropdown of dropdowns) {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
 </body>
 </html> 
