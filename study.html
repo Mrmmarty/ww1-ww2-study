@@ -82,8 +82,8 @@
         .draggable {
             cursor: grab;
             user-select: none;
-            padding: 0.75rem 1rem;
-            line-height: 1.2;
+            padding: 0.875rem 2.25rem 0.875rem 1rem;
+            line-height: 1.3;
             border: 2px solid transparent;
             transition: all 0.2s ease;
             touch-action: none;
@@ -93,19 +93,24 @@
             justify-content: center;
             text-align: center;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
             font-size: 0.95rem;
             white-space: normal;
-            min-height: 44px;
+            min-height: 52px;
             position: relative;
             width: 100%;
+            word-break: break-word;
+            hyphens: auto;
         }
         .draggable::after {
             content: '☰';
             position: absolute;
-            right: 0.5rem;
-            opacity: 0.5;
-            font-size: 1.2rem;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.6;
+            font-size: 1.1rem;
+            pointer-events: none;
         }
         .draggable:active {
             cursor: grabbing;
@@ -135,17 +140,17 @@
         }
         #terms-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 0.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
             background: rgba(26, 31, 45, 0.95);
-            border-radius: 0.5rem;
-            padding: 0.75rem;
+            border-radius: 0.75rem;
+            padding: 1rem;
             position: sticky;
             top: 80px;
             z-index: 10;
             backdrop-filter: blur(8px);
             max-width: 100%;
-            margin-bottom: 1rem;
+            margin: 0 0.5rem 1.5rem 0.5rem;
         }
         /* Increase spacing for better readability */
         .quiz-option {
@@ -226,16 +231,22 @@
                 min-height: 2rem;
             }
             #terms-container {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                padding: 0.5rem;
-                gap: 0.5rem;
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+                padding: 0.875rem;
+                gap: 0.625rem;
+                margin: 0 0.25rem 1rem 0.25rem;
             }
+            
             .draggable {
-                font-size: 0.85rem;
-                padding: 0.4rem 0.6rem;
+                min-height: 48px;
+                padding: 0.75rem 2rem 0.75rem 0.875rem;
+                font-size: 0.9rem;
+                line-height: 1.2;
             }
-            #terms-container {
-                grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+
+            .draggable::after {
+                right: 0.5rem;
+                font-size: 1rem;
             }
         }
 
@@ -297,6 +308,15 @@
             .hamburger.active .hamburger-line:nth-child(3) {
                 transform: translateY(-8px) rotate(-45deg);
             }
+        }
+
+        /* Ensure long words break properly in all browsers */
+        .draggable span {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
         }
     </style>
 </head>
@@ -686,7 +706,7 @@
                 const termDiv = document.createElement('div');
                 termDiv.className = 'p-3 bg-gray-700/50 rounded draggable';
                 termDiv.setAttribute('data-term', item.term);
-                termDiv.innerHTML = `<span class="font-medium">${item.term}</span>`;
+                termDiv.innerHTML = `<span class="term-text">${item.term}</span>`;
                 
                 // Add touch events for mobile dragging
                 let isDragging = false;
