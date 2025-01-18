@@ -319,66 +319,6 @@
                 min-height: 24px;
             }
         }
-
-        /* Mobile-specific styles */
-        #matching {
-            padding-bottom: 80px; /* Make room for fixed buttons */
-        }
-
-        #terms-container {
-            position: sticky;
-            top: 120px; /* Adjust based on your header height */
-            z-index: 30;
-            background-color: #1a1f2d;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            max-height: 30vh;
-            overflow-y: auto;
-        }
-
-        .draggable {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0.25rem;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 0.5rem;
-            touch-action: none;
-            min-height: 44px;
-        }
-
-        .droppable {
-            min-height: 80px;
-            margin-bottom: 0.75rem;
-            padding: 0.75rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
-        }
-
-        .droppable.drag-over {
-            transform: scale(1.02);
-            border-color: #6366F1;
-            background-color: rgba(99, 102, 241, 0.2);
-        }
-
-        /* Desktop styles */
-        @media (min-width: 769px) {
-            #terms-container {
-                max-height: 70vh;
-                overflow-y: auto;
-            }
-
-            #definitions-container {
-                max-height: 70vh;
-                overflow-y: auto;
-                padding-bottom: 80px;
-            }
-        }
     </style>
 </head>
 <body class="bg-[#1a1f2d] text-white">
@@ -399,7 +339,7 @@
             <div id="menuContent" class="hidden">
                 <div class="flex flex-col space-y-2 mt-4">
                     <a href="index.html" class="bg-gray-700/50 text-white/80 hover:text-white text-center px-6 py-2 rounded">
-                        Home <i class="fas fa-home"></i>
+                        Home
                     </a>
                     <a href="ww1.html" class="bg-gray-700/50 text-white/80 hover:text-white text-center px-6 py-2 rounded">
                         WOI
@@ -460,28 +400,27 @@
             <h2 class="text-4xl font-bold mb-8 text-center">Matching Game</h2>
             <p class="text-center mb-8 text-gray-300">Sleep de termen naar de juiste definities om ze te matchen.</p>
             
-            <div class="relative">
-                <!-- Terms container - Now floats alongside -->
-                <div class="bg-gray-800/50 p-4 md:p-6 rounded-lg md:w-1/2 md:fixed md:top-40 md:max-w-[300px]">
+            <!-- Change grid to flex column on mobile -->
+            <div class="flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-8">
+                <!-- Terms container -->
+                <div class="bg-gray-800/50 p-4 md:p-6 rounded-lg sticky top-32">
                     <h3 class="text-xl font-bold mb-4">Termen</h3>
                     <div id="terms-container" class="flex flex-wrap gap-2">
                         <!-- Terms will be inserted here -->
                     </div>
                 </div>
                 
-                <!-- Definitions container - Offset to make room for fixed terms -->
-                <div class="mt-4 md:mt-0 md:ml-[320px]">
-                    <div class="bg-gray-800/50 p-4 md:p-6 rounded-lg">
-                        <h3 class="text-xl font-bold mb-4">Definities</h3>
-                        <div id="definitions-container" class="space-y-3">
-                            <!-- Definitions will be inserted here -->
-                        </div>
+                <!-- Definitions container -->
+                <div class="bg-gray-800/50 p-4 md:p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4">Definities</h3>
+                    <div id="definitions-container" class="space-y-3">
+                        <!-- Definitions will be inserted here -->
                     </div>
                 </div>
             </div>
 
-            <!-- Controls - Fixed at bottom -->
-            <div class="fixed bottom-4 left-0 right-0 flex justify-center gap-2 bg-gray-800/90 backdrop-blur-sm p-4 z-40">
+            <!-- Controls -->
+            <div class="mt-8 flex flex-wrap justify-center gap-2">
                 <button onclick="checkMatches()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
                     Check
                 </button>
