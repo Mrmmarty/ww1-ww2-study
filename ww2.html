@@ -25,11 +25,10 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background-color: rgba(26, 31, 45, 0.95);
+            background-color: #1a1f2d;
             padding: 1rem;
             z-index: 1000;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            backdrop-filter: blur(8px);
         }
 
         nav ul {
@@ -38,82 +37,20 @@
             gap: 1rem;
             list-style: none;
             flex-wrap: wrap;
-            max-width: 7xl;
-            margin: 0 auto;
         }
 
         nav a {
             color: #ffffff;
             text-decoration: none;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
             font-size: 1.1rem;
-            background-color: rgba(42, 47, 61, 0.5);
-            display: block;
-            text-align: center;
-            min-width: 100px;
+            background-color: #2a2f3d;
         }
 
         nav a:hover {
-            background-color: rgba(58, 63, 77, 0.7);
-            transform: translateY(-1px);
-        }
-
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            background: none;
-            border: none;
-            margin-left: -0.5rem;
-        }
-
-        .hamburger-line {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px auto;
-            background-color: white;
-            transition: all 0.3s ease-in-out;
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-
-            nav ul {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                padding: 0.5rem 0;
-            }
-
-            nav ul.active {
-                display: flex;
-            }
-
-            nav a {
-                width: 100%;
-                padding: 0.875rem;
-            }
-
-            .hamburger.active .hamburger-line:nth-child(2) {
-                opacity: 0;
-            }
-
-            .hamburger.active .hamburger-line:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-
-            .hamburger.active .hamburger-line:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-
-            .hero-section {
-                padding-top: 100px;
-            }
+            background-color: #3a3f4d;
         }
 
         .hero-section {
@@ -229,29 +166,13 @@
 </head>
 <body>
     <nav>
-        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-between">
-            <button class="hamburger" onclick="toggleMenu()">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            <ul id="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="ww1.html">WOI</a></li>
-                <li><a href="ww2.html">WOII</a></li>
-                <li><a href="study.html">Oefenen</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="ww1.html">WOI</a></li>
+            <li><a href="ww2.html">WOII</a></li>
+            <li><a href="study.html">Oefenen</a></li>
+        </ul>
     </nav>
-
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('nav-menu');
-            const hamburger = document.querySelector('.hamburger');
-            menu.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        }
-    </script>
 
     <div class="hero-section">
         <h1>De Tweede Wereldoorlog</h1>
@@ -269,7 +190,11 @@
                     </div>
                     <div class="timeline-item">
                         <h3>14 mei 1940</h3>
-                        <p>Bombardement op Rotterdam. Nederland geeft zich over.</p>
+                        <p>Bombardement Rotterdam (heel Rotterdam plat in 13 minuten)</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>15 mei 1940</h3>
+                        <p>Nederland geeft zich over.</p>
                     </div>
                     <div class="timeline-item">
                         <h3>5 mei 1945</h3>
@@ -282,30 +207,43 @@
                 <h2>Belangrijke Begrippen</h2>
                 <div class="definition">
                     <h3>Antisemitisme</h3>
-                    <p>Haat tegen en discriminatie van Joden.</p>
+                    <p>Jodenhaat. Discriminatie van de Joden.</p>
                 </div>
                 <div class="definition">
                     <h3>Duitse bezetting</h3>
-                    <p>De periode waarin de Nazi's Nederland bestuurden (1940-1945).</p>
+                    <p>De landen die bezet werden door Hitler in de Tweede Wereldoorlog.</p>
+                </div>
+                <div class="definition">
+                    <h3>Geallieerden</h3>
+                    <p>Het Verenigd Koninkrijk, de Verenigde staten, Rusland en Frankrijk.</p>
                 </div>
                 <div class="definition">
                     <h3>Bondgenoten van Hitler</h3>
-                    <p>Italië en Japan.</p>
+                    <p>Italie en Japan.</p>
                 </div>
                 <div class="definition">
-                    <h3>Holocaust</h3>
-                    <p>De systematische vervolging en moord op Joden door Nazi-Duitsland.</p>
+                    <h3>NSB</h3>
+                    <p>De Nederlandse politieke partij die het eens was met Hitler en de bezetters steunde.</p>
+                </div>
+                <div class="definition">
+                    <h3>NSDAP</h3>
+                    <p>De politieke partij van Hitler.</p>
                 </div>
             </section>
 
             <section id="camps">
                 <h2>Concentratiekampen</h2>
                 <div class="definition">
+                    <h3>Wat is een concentratiekamp?</h3>
+                    <p>Een kamp waar mensen onder dwang van het leger bij elkaar gebracht werden.</p>
+                </div>
+                <div class="definition">
                     <h3>Soorten kampen</h3>
                     <ul>
-                        <li>Werkkampen: Gevangenen moesten zwaar werk doen</li>
-                        <li>Vernietigingskampen: Speciaal gebouwd om mensen te vermoorden</li>
-                        <li>Doorgangskampen: Tijdelijke kampen voordat mensen naar andere kampen werden gestuurd</li>
+                        <li>Een doorgangskamp</li>
+                        <li>Een interneringskamp (internatiekamp)</li>
+                        <li>Een werkkamp (hier werden mensen naartoe gestuurd om, onder zeer slechte omstandigheden, te werken)</li>
+                        <li>Een vernietigingskamp (hier kwamen mensen, vooral Joden, heen om gedood/vergast te worden)</li>
                     </ul>
                 </div>
             </section>
@@ -313,12 +251,17 @@
             <section id="holocaust">
                 <h2>De Holocaust</h2>
                 <div class="definition">
-                    <h3>Jodenvervolging</h3>
+                    <h3>Waarom?</h3>
+                    <p>Volgens Hitler waren de Joden Untermenschen (mensen die niks waard waren). Volgens Hitler was het Germaanse volk, de Ariërs (blond haar, blauwe ogen), het sterkste ras, alleen dat ras mocht in zijn Rijk wonen. De rest moest weg/gezuiverd worden.</p>
+                </div>
+                <div class="definition">
+                    <h3>Stappen van Jodenvervolging</h3>
                     <ul>
-                        <li>Registratie van Joden</li>
-                        <li>Discriminerende maatregelen</li>
-                        <li>Deportatie naar kampen</li>
-                        <li>Systematische moord</li>
+                        <li>Gediscrimineerd</li>
+                        <li>Buitengesloten</li>
+                        <li>In aparte wijken gezet</li>
+                        <li>Gedeporteerd naar concentratiekampen</li>
+                        <li>Vermoord</li>
                     </ul>
                 </div>
             </section>
