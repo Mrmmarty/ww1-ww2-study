@@ -82,34 +82,53 @@
         .draggable {
             cursor: grab;
             user-select: none;
-            padding: 1rem;
-            line-height: 1.8;
+            padding: 0.5rem 0.75rem;
+            line-height: 1.2;
             border: 2px solid transparent;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            touch-action: none;
+            -webkit-tap-highlight-color: transparent;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
         .draggable:active {
             cursor: grabbing;
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.1);
         }
         .droppable {
-            min-height: 80px;
+            min-height: 45px;
             border: 2px dashed rgba(255, 255, 255, 0.2);
-            padding: 1rem;
-            line-height: 1.8;
-            transition: all 0.3s ease;
+            padding: 0.5rem;
+            line-height: 1.2;
+            transition: all 0.2s ease;
             position: relative;
+            font-size: 0.9rem;
         }
         .droppable.drag-over {
             border-color: #6366F1;
             background-color: rgba(99, 102, 241, 0.2);
-            transform: scale(1.02);
+            transform: scale(1.01);
         }
         .droppable .definition-text {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
         .droppable .matched-term {
-            min-height: 3rem;
-            border-radius: 0.375rem;
-            transition: all 0.3s ease;
+            min-height: 2rem;
+        }
+        #terms-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            background: rgba(26, 31, 45, 0.95);
+            border-radius: 0.5rem;
+            padding: 0.5rem;
         }
         /* Increase spacing for better readability */
         .quiz-option {
@@ -178,6 +197,34 @@
                 width: 100%;
                 margin: 0.25rem 0;
             }
+
+            .draggable, .droppable {
+                font-size: 0.95rem;
+                padding: 0.625rem;
+            }
+            .droppable {
+                min-height: 50px;
+            }
+            .droppable .matched-term {
+                min-height: 2rem;
+            }
+            #terms-container {
+                position: sticky;
+                top: 80px;
+                z-index: 10;
+                background: rgba(26, 31, 45, 0.95);
+                backdrop-filter: blur(8px);
+                border-radius: 0.5rem;
+                padding: 0.5rem;
+                margin: -0.5rem;
+            }
+            .draggable {
+                font-size: 0.85rem;
+                padding: 0.4rem 0.6rem;
+            }
+            #terms-container {
+                grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            }
         }
 
         /* Add touch-friendly styles */
@@ -203,21 +250,66 @@
                 min-height: 24px;
             }
         }
+
+        /* Add styles for hamburger menu */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .hamburger-line {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: white;
+            transition: all 0.3s ease-in-out;
+        }
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-menu {
+                display: none;
+                width: 100%;
+            }
+            .nav-menu.active {
+                display: block;
+            }
+            .hamburger.active .hamburger-line:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .hamburger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .hamburger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
     </style>
 </head>
 <body class="bg-[#1a1f2d] text-white">
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-50">
         <div class="max-w-7xl mx-auto px-4 py-3">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-2">
-                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
-                    <a href="ww1.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOI</a>
-                    <a href="ww2.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOII</a>
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button class="hamburger md:hidden" onclick="toggleMenu()">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
                 </div>
-                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
-                    <button onclick="showSection('flashcards')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Flashcards</button>
-                    <button onclick="showSection('quiz')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Quiz</button>
-                    <button onclick="showSection('matching')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Matching</button>
+                <div class="nav-menu md:flex flex-col md:flex-row justify-between items-center gap-2 w-full">
+                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <a href="ww1.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOI</a>
+                        <a href="ww2.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOII</a>
+                    </div>
+                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <button onclick="showSection('flashcards')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Flashcards</button>
+                        <button onclick="showSection('quiz')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Quiz</button>
+                        <button onclick="showSection('matching')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Matching</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -247,33 +339,33 @@
         </section>
 
         <!-- Matching Section -->
-        <section id="matching" class="max-w-4xl mx-auto py-8 hidden">
-            <h2 class="text-4xl font-bold mb-8 text-center">Matching Game</h2>
-            <p class="text-center mb-8 text-gray-300">Sleep de termen naar de juiste definities om ze te matchen.</p>
+        <section id="matching" class="max-w-4xl mx-auto py-4 md:py-8 hidden">
+            <h2 class="text-4xl font-bold mb-4 md:mb-8 text-center">Matching Game</h2>
+            <p class="text-center mb-4 md:mb-8 text-gray-300">Sleep de termen naar de juiste definities om ze te matchen.</p>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-gray-800/50 p-6 rounded-lg">
-                    <h3 class="text-xl font-bold mb-4">Termen</h3>
-                    <div id="terms-container" class="space-y-3">
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
+                <div class="bg-gray-800/50 p-4 md:p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3">Termen</h3>
+                    <div id="terms-container">
                         <!-- Terms will be inserted here -->
                     </div>
                 </div>
-                <div class="bg-gray-800/50 p-6 rounded-lg">
-                    <h3 class="text-xl font-bold mb-4">Definities</h3>
-                    <div id="definitions-container" class="space-y-3">
+                <div class="bg-gray-800/50 p-4 md:p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3">Definities</h3>
+                    <div id="definitions-container" class="space-y-2 md:space-y-3">
                         <!-- Definitions will be inserted here -->
                     </div>
                 </div>
             </div>
 
-            <div class="mt-8 text-center">
-                <button onclick="checkMatches()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+            <div class="mt-4 md:mt-8 text-center space-x-2 md:space-x-4">
+                <button onclick="checkMatches()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-6 py-2 rounded-lg">
                     Check Antwoorden
                 </button>
-                <button onclick="resetMatching()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg ml-4">
+                <button onclick="resetMatching()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 md:px-6 py-2 rounded-lg">
                     Reset
                 </button>
-                <button onclick="shuffleDefinitions()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg ml-4">
+                <button onclick="shuffleDefinitions()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 md:px-6 py-2 rounded-lg">
                     Shuffle
                 </button>
             </div>
@@ -281,6 +373,24 @@
     </main>
 
     <script>
+        // Add this at the beginning of your script section
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-menu a, .nav-menu button').forEach(item => {
+            item.addEventListener('click', () => {
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
         // Study content
         const studyContent = {
             flashcards: [
