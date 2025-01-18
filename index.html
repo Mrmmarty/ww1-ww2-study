@@ -27,129 +27,9 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background-color: rgba(26, 31, 45, 0.95);
-            padding: 1rem;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            backdrop-filter: blur(8px);
-        }
-
-        nav ul {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            list-style: none;
-            flex-wrap: wrap;
-            max-width: 7xl;
-            margin: 0 auto;
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
-            font-size: 1.1rem;
-            background-color: rgba(42, 47, 61, 0.5);
-            display: block;
-            text-align: center;
-            min-width: 100px;
-        }
-
-        nav a:hover {
-            background-color: rgba(58, 63, 77, 0.7);
-            transform: translateY(-1px);
-        }
-
-        .hamburger {
-            display: none;
-            cursor: pointer;
-            padding: 0.5rem;
-            background: none;
-            border: none;
-            margin-left: -0.5rem;
-        }
-
-        .hamburger-line {
-            display: block;
-            width: 25px;
-            height: 3px;
-            margin: 5px auto;
-            background-color: white;
-            transition: all 0.3s ease-in-out;
-        }
-
-        @media (max-width: 768px) {
-            .hamburger {
-                display: block;
-            }
-
-            nav ul {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                padding: 0.5rem 0;
-            }
-
-            nav ul.active {
-                display: flex;
-            }
-
-            nav a {
-                width: 100%;
-                padding: 0.875rem;
-            }
-
-            .hamburger.active .hamburger-line:nth-child(2) {
-                opacity: 0;
-            }
-
-            .hamburger.active .hamburger-line:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-
-            .hamburger.active .hamburger-line:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
-
-            .hero-section {
-                padding-top: 100px;
-            }
-        }
     </style>
 </head>
 <body class="bg-[#1a1f2d] text-white">
-    <nav>
-        <div class="max-w-7xl mx-auto px-4 relative flex items-center justify-between">
-            <button class="hamburger" onclick="toggleMenu()">
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-                <span class="hamburger-line"></span>
-            </button>
-            <ul id="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="ww1.html">WOI</a></li>
-                <li><a href="ww2.html">WOII</a></li>
-                <li><a href="study.html">Oefenen</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('nav-menu');
-            const hamburger = document.querySelector('.hamburger');
-            menu.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        }
-    </script>
-
     <!-- Hero Section -->
     <section class="hero-section px-4">
         <h1 class="text-6xl font-bold mb-6 text-center">WOI & WOII</h1>
@@ -160,7 +40,7 @@
         <!-- Navigation Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <!-- Study Card -->
-            <a href="study.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70">
+            <a href="study.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 cursor-pointer transition-all">
                 <div class="text-4xl mb-4">📚</div>
                 <h2 class="text-2xl font-bold mb-3">Leren</h2>
                 <p class="text-gray-300">
@@ -169,7 +49,7 @@
             </a>
 
             <!-- WWI Card -->
-            <a href="ww1.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70">
+            <a href="ww1.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 cursor-pointer transition-all">
                 <div class="text-4xl mb-4">🌍</div>
                 <h2 class="text-2xl font-bold mb-3">Eerste Wereldoorlog</h2>
                 <p class="text-gray-300">
@@ -178,7 +58,7 @@
             </a>
 
             <!-- WWII Card -->
-            <a href="ww2.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70">
+            <a href="ww2.html" class="card bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 cursor-pointer transition-all">
                 <div class="text-4xl mb-4">🏛️</div>
                 <h2 class="text-2xl font-bold mb-3">Tweede Wereldoorlog</h2>
                 <p class="text-gray-300">
@@ -191,21 +71,21 @@
         <div class="mt-24 max-w-4xl mx-auto text-center">
             <h2 class="text-3xl font-bold mb-8">Leer op je eigen manier</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
+                <a href="study.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
                     <div class="text-3xl mb-4">🎴</div>
                     <h3 class="text-xl font-bold mb-2">Flashcards</h3>
                     <p class="text-gray-300">Leer belangrijke termen en definities</p>
-                </div>
-                <div>
+                </a>
+                <a href="study.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
                     <div class="text-3xl mb-4">❓</div>
                     <h3 class="text-xl font-bold mb-2">Quiz</h3>
                     <p class="text-gray-300">Test je kennis met multiple choice vragen</p>
-                </div>
-                <div>
+                </a>
+                <a href="study.html" class="cursor-pointer hover:bg-gray-800/50 p-6 rounded-lg transition-all">
                     <div class="text-3xl mb-4">🔄</div>
                     <h3 class="text-xl font-bold mb-2">Matching</h3>
                     <p class="text-gray-300">Verbind termen met hun definities</p>
-                </div>
+                </a>
             </div>
         </div>
 
