@@ -178,122 +178,6 @@
                 width: 100%;
                 margin: 0.25rem 0;
             }
-
-            /* Update navigation styles */
-            nav {
-                padding: 0.25rem 0;
-            }
-            
-            #menuContent.show {
-                display: block;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: #1a1f2d;
-                padding: 1rem;
-                border-radius: 0 0 0.5rem 0.5rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                animation: slideDown 0.2s ease-out;
-            }
-            
-            @keyframes slideDown {
-                from {
-                    opacity: 0;
-                    transform: translateY(-10px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            
-            /* Make the menu button sticky */
-            #menuButton {
-                position: relative;
-                z-index: 1000;
-            }
-
-            /* Adjust main content padding to account for menu */
-            main {
-                padding-top: 7rem !important;
-            }
-
-            /* Make buttons more touch-friendly */
-            button, a {
-                min-height: 44px;
-                font-size: 1rem;
-            }
-
-            #menuContent {
-                display: none;
-            }
-
-            #menuContent.show {
-                display: block;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background-color: #1a1f2d;
-                padding: 1rem;
-                border-radius: 0 0 0.5rem 0.5rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-                animation: slideDown 0.2s ease-out;
-            }
-
-            /* Make terms container sticky at top */
-            #terms-container {
-                position: relative;
-                z-index: 30;
-                min-height: 100px;
-            }
-
-            /* Improve draggable items on mobile */
-            .draggable {
-                display: inline-block;
-                margin: 0.25rem;
-                padding: 0.5rem 1rem;
-                font-size: 0.9rem;
-                background-color: rgba(255, 255, 255, 0.1);
-                border-radius: 0.5rem;
-                touch-action: none;
-            }
-
-            /* Improve droppable areas on mobile */
-            .droppable {
-                min-height: 60px;
-                margin-bottom: 0.5rem;
-                padding: 0.75rem;
-                background-color: rgba(255, 255, 255, 0.05);
-                border: 2px dashed rgba(255, 255, 255, 0.2);
-                border-radius: 0.5rem;
-            }
-
-            .droppable .definition-text {
-                font-size: 0.9rem;
-                line-height: 1.4;
-            }
-
-            /* Improve matched/wrong states */
-            .matched-pair, .wrong-pair {
-                padding: 0.5rem;
-                margin-bottom: 0.5rem;
-                border-radius: 0.5rem;
-            }
-
-            /* Make buttons more touch-friendly */
-            #matching button {
-                min-width: auto;
-                padding: 0.75rem 1.5rem;
-                font-size: 1rem;
-            }
-        }
-
-        @media (min-width: 769px) {
-            #menuContent {
-                display: block !important;
-            }
         }
 
         /* Add touch-friendly styles */
@@ -324,56 +208,23 @@
 <body class="bg-[#1a1f2d] text-white">
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-50">
-        <div class="max-w-7xl mx-auto px-4 py-2">
-            <!-- Menu button for mobile -->
-            <div class="flex justify-between items-center">
-        
-                <button onclick="toggleMenu(event)" class="md:hidden text-white p-2" id="menuButton" aria-label="Toggle menu">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-                    </svg>
-                </button>
-            </div>
-            
-            <!-- Menu content -->
-            <div id="menuContent" class="hidden">
-                <div class="flex flex-col space-y-2 mt-4">
-                    <a href="index.html" class="bg-gray-700/50 text-white/80 hover:text-white text-center px-6 py-2 rounded">
-                        Home
-                    </a>
-                    <a href="ww1.html" class="bg-gray-700/50 text-white/80 hover:text-white text-center px-6 py-2 rounded">
-                        WOI
-                    </a>
-                    <a href="ww2.html" class="bg-gray-700/50 text-white/80 hover:text-white text-center px-6 py-2 rounded">
-                        WOII
-                    </a>
-                    <button onclick="showSection('flashcards')" class="bg-gray-700/50 text-white/80 hover:text-white text-center px-6 py-2 rounded">
-                        Oefenen
-                    </button>
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-2">
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                    <a href="ww1.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOI</a>
+                    <a href="ww2.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOII</a>
+                </div>
+                <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                    <button onclick="showSection('flashcards')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Flashcards</button>
+                    <button onclick="showSection('quiz')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Quiz</button>
+                    <button onclick="showSection('matching')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Matching</button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Add this section right after the nav element -->
-    <div class="fixed top-16 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-40 md:block">
-        <div class="max-w-7xl mx-auto px-4 py-2">
-            <div class="flex justify-center space-x-4">
-                <button onclick="showSection('flashcards')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded text-sm">
-                    Flashcards
-                </button>
-                <button onclick="showSection('quiz')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded text-sm">
-                    Quiz
-                </button>
-                <button onclick="showSection('matching')" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded text-sm">
-                    Matching
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Main Content -->
-    <main class="pt-32 px-4 min-h-screen">
+    <main class="pt-20 px-4 min-h-screen">
         <!-- Flashcards Section -->
         <section id="flashcards" class="max-w-4xl mx-auto py-8">
             <h2 class="text-4xl font-bold mb-8 text-center">Flashcards</h2>
@@ -400,18 +251,14 @@
             <h2 class="text-4xl font-bold mb-8 text-center">Matching Game</h2>
             <p class="text-center mb-8 text-gray-300">Sleep de termen naar de juiste definities om ze te matchen.</p>
             
-            <!-- Change grid to flex column on mobile -->
-            <div class="flex flex-col md:grid md:grid-cols-2 gap-4 md:gap-8">
-                <!-- Terms container -->
-                <div class="bg-gray-800/50 p-4 md:p-6 rounded-lg sticky top-32">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gray-800/50 p-6 rounded-lg">
                     <h3 class="text-xl font-bold mb-4">Termen</h3>
-                    <div id="terms-container" class="flex flex-wrap gap-2">
+                    <div id="terms-container" class="space-y-3">
                         <!-- Terms will be inserted here -->
                     </div>
                 </div>
-                
-                <!-- Definitions container -->
-                <div class="bg-gray-800/50 p-4 md:p-6 rounded-lg">
+                <div class="bg-gray-800/50 p-6 rounded-lg">
                     <h3 class="text-xl font-bold mb-4">Definities</h3>
                     <div id="definitions-container" class="space-y-3">
                         <!-- Definitions will be inserted here -->
@@ -419,15 +266,14 @@
                 </div>
             </div>
 
-            <!-- Controls -->
-            <div class="mt-8 flex flex-wrap justify-center gap-2">
-                <button onclick="checkMatches()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
-                    Check
+            <div class="mt-8 text-center">
+                <button onclick="checkMatches()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                    Check Antwoorden
                 </button>
-                <button onclick="resetMatching()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">
+                <button onclick="resetMatching()" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg ml-4">
                     Reset
                 </button>
-                <button onclick="shuffleDefinitions()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">
+                <button onclick="shuffleDefinitions()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg ml-4">
                     Shuffle
                 </button>
             </div>
@@ -954,56 +800,6 @@
             setVH();
             window.addEventListener('resize', setVH);
         };
-
-        // Add toggle menu function
-        function toggleMenu(event) {
-            if (event) {
-                event.stopPropagation(); // Stop event from bubbling up
-            }
-            
-            const menuContent = document.getElementById('menuContent');
-            const menuButton = document.getElementById('menuButton');
-            
-            if (!menuContent.classList.contains('show')) {
-                // Show menu
-                menuContent.classList.add('show');
-                menuButton.innerHTML = `
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                `;
-            } else {
-                // Hide menu
-                menuContent.classList.remove('show');
-                menuButton.innerHTML = `
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-                    </svg>
-                `;
-            }
-        }
-
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const menuContent = document.getElementById('menuContent');
-            const menuButton = document.getElementById('menuButton');
-            
-            if (!menuButton.contains(event.target) && 
-                !menuContent.contains(event.target) && 
-                menuContent.classList.contains('show')) {
-                toggleMenu();
-            }
-        });
-
-        // Close menu when selecting a section
-        const originalShowSection = showSection;
-        showSection = function(sectionId) {
-            originalShowSection(sectionId);
-            const menuContent = document.getElementById('menuContent');
-            if (window.innerWidth < 768 && menuContent.classList.contains('show')) {
-                toggleMenu();
-            }
-        };
     </script>
 </body>
-</html>
+</html> 
