@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quiz - WOI & WOII</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6, button {
+            font-family: 'OpenDyslexic', sans-serif;
+        }
+        .quiz-option {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+        }
+        .quiz-option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        p, span, label {
+            letter-spacing: 0.02em;
+            word-spacing: 0.05em;
+        }
+        @media (max-width: 768px) {
+            .quiz-option {
+                padding: 1rem;
+                margin: 0.75rem 0;
+            }
+            button {
+                padding: 0.75rem 1rem;
+                margin: 0.5rem;
+                min-width: 120px;
+            }
+            nav .flex {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            nav button {
+                width: 100%;
+                margin: 0.25rem 0;
+            }
+        }
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .hamburger-line {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            background-color: white;
+            transition: all 0.3s ease-in-out;
+        }
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-menu {
+                display: none;
+                width: 100%;
+            }
+            .nav-menu.active {
+                display: block;
+            }
+            .hamburger.active .hamburger-line:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .hamburger-line:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .hamburger-line:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#1a1f2d] text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button class="hamburger md:hidden" onclick="toggleMenu()">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+                <div class="nav-menu md:flex flex-col md:flex-row justify-between items-center gap-2 w-full">
+                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <a href="ww1.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOI</a>
+                        <a href="ww2.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOII</a>
+                    </div>
+                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <a href="flashcards.html" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Flashcards</a>
+                        <a href="quiz.html" class="text-white bg-blue-600 px-4 py-2 rounded">Quiz</a>
+                        <a href="matching.html" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Matching</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 px-4 min-h-screen">
+        <section id="quiz" class="max-w-4xl mx-auto py-8">
+            <h2 class="text-4xl font-bold mb-8 text-center">Quiz</h2>
+            <div id="quiz-container" class="space-y-8">
+                <!-- Quiz questions will be inserted here by JavaScript -->
+            </div>
+            <div class="mt-8 text-center">
+                <button onclick="checkAnswers()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                    Check Answers
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Study content
+        const studyContent = {
+            quiz: [
+                {
+                    question: "Wanneer begon de Eerste Wereldoorlog?",
+                    options: ["28 juni 1914", "28 juli 1914", "1 augustus 1914", "11 november 1918"],
+                    correct: 1,
+                    explanation: "De Eerste Wereldoorlog begon op 28 juli 1914 toen Oostenrijk-Hongarije de oorlog verklaarde aan Servië."
+                },
+                {
+                    question: "Wie waren de Centralen in WOI?",
+                    options: [
+                        "Duitsland, Oostenrijk-Hongarije en Italië",
+                        "Rusland, Frankrijk, Verenigd Koninkrijk",
+                        "Nederland, België, Zwitserland",
+                        "Japan, China, Thailand"
+                    ],
+                    correct: 0,
+                    explanation: "De Centralen bestonden uit Duitsland, Oostenrijk-Hongarije en Italië."
+                },
+                {
+                    question: "Wanneer viel Duitsland Nederland binnen in WOII?",
+                    options: ["10 mei 1940", "14 mei 1940", "15 mei 1940", "5 mei 1945"],
+                    correct: 0,
+                    explanation: "Op 10 mei 1940 viel Duitsland Nederland binnen."
+                },
+                {
+                    question: "Wat was de aanleiding voor WOI?",
+                    options: [
+                        "De moord op Frans Ferdinand",
+                        "De invasie van Polen",
+                        "Het bombardement op Pearl Harbor",
+                        "De Russische Revolutie"
+                    ],
+                    correct: 0,
+                    explanation: "De moord op Frans Ferdinand in Sarajevo was de directe aanleiding voor het uitbreken van WOI."
+                },
+                {
+                    question: "Wat waren de 5 redenen voor het ontstaan van WOI?",
+                    options: [
+                        "Wapenwedloop, Nationalisme, Modern Imperialisme, Bondgenoten, Militarisme",
+                        "Economie, Politiek, Religie, Cultuur, Taal",
+                        "Handel, Transport, Communicatie, Industrie, Landbouw",
+                        "Kolonies, Grenzen, Talen, Culturen, Religies"
+                    ],
+                    correct: 0,
+                    explanation: "De 5 redenen waren: Wapenwedloop, Nationalisme, Modern Imperialisme, Bondgenoten en Militarisme."
+                },
+                {
+                    question: "Wie waren de bondgenoten van Hitler in WOII?",
+                    options: [
+                        "Italië en Japan",
+                        "Frankrijk en Engeland",
+                        "Amerika en Rusland",
+                        "Nederland en België"
+                    ],
+                    correct: 0,
+                    explanation: "De bondgenoten van Hitler waren Italië en Japan."
+                },
+                {
+                    question: "Wie waren de Geallieerden in WOII?",
+                    options: [
+                        "Amerika, Engeland, Frankrijk en Rusland",
+                        "Duitsland, Italië en Japan",
+                        "Nederland, België en Luxemburg",
+                        "Spanje, Portugal en Zweden"
+                    ],
+                    correct: 0,
+                    explanation: "De Geallieerden in WOII waren Amerika, Engeland, Frankrijk en Rusland."
+                },
+                {
+                    question: "Welke stappen gebruikten de Nazi's in de Holocaust?",
+                    options: [
+                        "Alleen deportatie naar kampen",
+                        "Gediscrimineerd, Buitengesloten, In aparte wijken gezet, Gedeporteerd naar concentratiekampen, Vermoord",
+                        "Alleen discriminatie en buitensluiting",
+                        "Direct vermoording zonder tussenstappen"
+                    ],
+                    correct: 1,
+                    explanation: "De stappen waren: Gediscrimineerd, Buitengesloten, In aparte wijken gezet, Gedeporteerd naar concentratiekampen, en uiteindelijk Vermoord."
+                },
+                {
+                    question: "Welke soorten kampen waren er in WOII?",
+                    options: [
+                        "Alleen vernietigingskampen",
+                        "Werk- en vernietigingskampen",
+                        "Doorgangskamp, Werkkamp, Concentratiekamp en Vernietigingskamp",
+                        "Alleen concentratiekampen"
+                    ],
+                    correct: 2,
+                    explanation: "Er waren verschillende soorten kampen: Doorgangskamp, Werkkamp, Concentratiekamp en Vernietigingskamp."
+                }
+            ]
+        };
+
+        // Initialize quiz
+        function initializeQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = ''; // Clear container
+            
+            studyContent.quiz.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'bg-gray-800/50 p-6 rounded-lg';
+                questionDiv.innerHTML = `
+                    <h3 class="text-xl font-bold mb-6">${q.question}</h3>
+                    <div class="space-y-4">
+                        ${q.options.map((option, i) => `
+                            <label class="flex items-center space-x-4 quiz-option">
+                                <input type="radio" name="q${index}" value="${i}" class="form-radio w-5 h-5">
+                                <span class="text-lg">${option}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="mt-6 text-green-500 hidden text-lg" id="explanation${index}">
+                        ${q.explanation}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        // Check quiz answers
+        function checkAnswers() {
+            let score = 0;
+            studyContent.quiz.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                const explanationDiv = document.getElementById(`explanation${index}`);
+                const questionDiv = explanationDiv.parentElement;
+                
+                if (selected) {
+                    if (parseInt(selected.value) === q.correct) {
+                        score++;
+                        questionDiv.classList.add('bg-green-900/30');
+                    } else {
+                        questionDiv.classList.add('bg-red-900/30');
+                    }
+                } else {
+                    questionDiv.classList.add('bg-yellow-900/30');
+                }
+                
+                explanationDiv.classList.remove('hidden');
+            });
+
+            alert(`Je score: ${score} van de ${studyContent.quiz.length} vragen correct!`);
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            initializeQuiz();
+        };
+
+        // Toggle menu function for mobile
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html> 

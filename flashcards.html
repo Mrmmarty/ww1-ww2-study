@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="nl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Flashcards - WOI & WOII</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/opendyslexic" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'OpenDyslexic', sans-serif;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6, button {
+            font-family: 'OpenDyslexic', sans-serif;
+        }
+        .flashcard {
+            perspective: 1000px;
+            height: 200px;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        @media (max-width: 768px) {
+            .flashcard {
+                height: auto;
+                min-height: 150px;
+            }
+            .flashcard-front, .flashcard-back {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#1a1f2d] text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-gray-800/90 backdrop-blur-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <button class="hamburger md:hidden" onclick="toggleMenu()">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+                <div class="nav-menu md:flex flex-col md:flex-row justify-between items-center gap-2 w-full">
+                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <a href="ww1.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOI</a>
+                        <a href="ww2.html" class="text-white/80 hover:text-white text-center px-4 py-2">WOII</a>
+                    </div>
+                    <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4 w-full md:w-auto">
+                        <a href="flashcards.html" class="text-white bg-blue-600 px-4 py-2 rounded">Flashcards</a>
+                        <a href="quiz.html" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Quiz</a>
+                        <a href="matching.html" class="text-white/80 hover:text-white bg-gray-700/50 px-4 py-2 rounded">Matching</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 px-4 min-h-screen">
+        <section id="flashcards" class="max-w-4xl mx-auto py-8">
+            <h2 class="text-4xl font-bold mb-8 text-center">Flashcards</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="flashcards-container">
+                <!-- Flashcards will be inserted here by JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Study content
+        const studyContent = {
+            flashcards: [
+                { front: "Militarisme", back: "Het leger heeft een superbelangrijke plek in de samenleving. Iedereen kijkt naar het leger op, wil erbij horen en er is heel veel interesse in wapens en alles wat met het leger te maken heeft." },
+                { front: "Nationalisme", back: "Liefde voor eigen land. Kenmerken zijn: een vlag, een volkslied, de cultuur van het land, de taal die ze er spreken." },
+                { front: "Imperialisme", back: "Landen stichten kolonies in andere landen. Hoe meer kolonies, hoe machtiger een land is." },
+                { front: "Wapenwedloop", back: "Een soort wedstrijd tussen landen, wie heeft de beste, de meeste en de gevaarlijkste wapens. Dit zorgde dat landen elkaar gingen wantrouwen, want waarom maak jij opeens zoveel wapens?" },
+                { front: "Antisemitisme", back: "Jodenhaat. Discriminatie van de Joden." },
+                { front: "Holocaust", back: "Massamoord, in de Tweede Wereldoorlog hebben we het dan over de massamoord op de Europese Joden." },
+                { front: "NSB", back: "De Nederlandse politieke partij die het eens was met Hitler en de bezetters steunde." },
+                { front: "NSDAP", back: "De politieke partij van Hitler." },
+                { front: "Loopgraven", back: "Lange tunnels die de Duitsers en de Fransen hebben gegraven in de tijd van de Eerste Wereldoorlog. Hierin leefde de soldaten en zochten ze naar beschutting." },
+                { front: "Neutraliteit", back: "Nederland wilde neutraal blijven tijdens de oorlog, dus ze hoorde niet bij de Centralen en ook niet bij de Geallieerden." },
+                { front: "Propaganda", back: "Reclame voor denkbeelden. Gemaakt en gecontroleerd door eigen regering." },
+                { front: "Herstelbetalingen", back: "Duitsland moest de schade van de oorlog terugbetalen aan landen zoals Frankrijk en België." },
+                { front: "Concentratiekamp", back: "Een kamp waar mensen onder dwang van het leger bij elkaar gebracht werden." },
+                { front: "Doorgangskamp", back: "Een tijdelijk kamp waar gevangenen werden verzameld voordat ze naar andere kampen werden gestuurd." },
+                { front: "Werkkamp", back: "Een kamp waar mensen onder zeer slechte omstandigheden moesten werken." },
+                { front: "Vernietigingskamp", back: "Een kamp waar mensen, vooral Joden, naartoe werden gestuurd om gedood/vergast te worden." },
+                { front: "Wereldoorlog", back: "Een oorlog waar meerdere landen over de hele wereld aan mee doen." },
+                { front: "Wapenstilstand", back: "Als landen besluiten om te stoppen met vechten. Dit gebeurde op 11-11-1918 om 11 uur." },
+                { front: "Bondgenootschappen", back: "Landen die elkaar steunen en samen een 'team' vormen. Een voordeel is dat je er nooit alleen voor staat, een nadeel is dat als 1 van de bondgenoten een oorlog start, je erin mee moet." },
+                { front: "Bondgenoten van Hitler", back: "Italië en Japan" },
+                { front: "Geallieerden WOII", back: "Amerika, Engeland, Frankrijk en Rusland" },
+                { front: "Duitse bezetting", back: "Nederland was bezet door Duitsland" },
+                { front: "Centralen", back: "Oostenrijk-Hongarije, Duitsland en Italië" }
+            ]
+        };
+
+        // Initialize flashcards
+        function initializeFlashcards() {
+            const container = document.getElementById('flashcards-container');
+            container.innerHTML = '';
+            
+            // Add filter buttons with improved styling
+            const filterDiv = document.createElement('div');
+            filterDiv.className = 'mb-8 flex flex-col sm:flex-row justify-center gap-2 max-w-xs mx-auto';
+            filterDiv.innerHTML = `
+                <button onclick="filterFlashcards('all')" class="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium">Alle</button>
+                <button onclick="filterFlashcards('ww1')" class="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium">WOI</button>
+                <button onclick="filterFlashcards('ww2')" class="w-full px-6 py-3 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all duration-200 text-lg font-medium">WOII</button>
+            `;
+            container.parentElement.insertBefore(filterDiv, container);
+
+            // Create flashcards
+            studyContent.flashcards.forEach(card => {
+                const flashcard = document.createElement('div');
+                flashcard.className = 'flashcard';
+                flashcard.innerHTML = `
+                    <div class="flashcard-inner bg-gray-800/50 rounded-lg">
+                        <div class="flashcard-front bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold">${card.front}</h3>
+                        </div>
+                        <div class="flashcard-back bg-gray-800/50 rounded-lg">
+                            <p>${card.back}</p>
+                        </div>
+                    </div>
+                `;
+                flashcard.addEventListener('click', () => {
+                    flashcard.classList.toggle('flipped');
+                });
+                container.appendChild(flashcard);
+            });
+        }
+
+        // Filter flashcards
+        function filterFlashcards(filter) {
+            const container = document.getElementById('flashcards-container');
+            container.innerHTML = '';
+            
+            let filteredCards = studyContent.flashcards;
+            if (filter === 'ww1') {
+                filteredCards = studyContent.flashcards.filter(card => 
+                    ['Militarisme', 'Nationalisme', 'Imperialisme', 'Wapenwedloop', 'Loopgravenoorlog', 'Neutraliteit'].includes(card.front)
+                );
+            } else if (filter === 'ww2') {
+                filteredCards = studyContent.flashcards.filter(card => 
+                    ['Antisemitisme', 'Holocaust', 'NSB', 'NSDAP', 'Concentratiekamp', 'Doorgangskamp', 'Werkkamp'].includes(card.front)
+                );
+            }
+            
+            filteredCards.forEach(card => {
+                const flashcard = document.createElement('div');
+                flashcard.className = 'flashcard';
+                flashcard.innerHTML = `
+                    <div class="flashcard-inner bg-gray-800/50 rounded-lg">
+                        <div class="flashcard-front bg-gray-800/50 rounded-lg">
+                            <h3 class="text-xl font-bold">${card.front}</h3>
+                        </div>
+                        <div class="flashcard-back bg-gray-800/50 rounded-lg">
+                            <p>${card.back}</p>
+                        </div>
+                    </div>
+                `;
+                flashcard.addEventListener('click', () => {
+                    flashcard.classList.toggle('flipped');
+                });
+                container.appendChild(flashcard);
+            });
+        }
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            initializeFlashcards();
+        };
+
+        // Toggle menu function for mobile
+        function toggleMenu() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html> 
